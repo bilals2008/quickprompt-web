@@ -11,6 +11,7 @@ import {
   IconFolder,
   IconRocket,
 } from "@tabler/icons-react";
+import { Link } from "@/components/ui/link";
 
 const FEATURES = [
   {
@@ -188,8 +189,9 @@ export function Features() {
             Features
           </p>
           <h2 className="mt-4 text-balance text-2xl font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl lg:text-5xl">
-            Everything you need,{" "}
-            <span className="text-muted-foreground/60">
+            Everything you need,
+            <br />
+            <span className="bg-gradient-to-r from-primary via-primary/70 to-primary/40 bg-clip-text text-transparent">
               nothing you don&apos;t.
             </span>
           </h2>
@@ -208,10 +210,10 @@ export function Features() {
               <button
                 key={f.title}
                 onClick={() => switchTab(i)}
-                className={`flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-medium transition-all duration-300 ${
+                className={`flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-medium transition-all duration-300 active:scale-95 ${
                   isActive
                     ? `bg-gradient-to-r ${f.gradient} text-white shadow-lg`
-                    : "bg-card/50 text-muted-foreground hover:bg-card hover:text-foreground"
+                    : "bg-card/50 text-muted-foreground hover:bg-card hover:text-foreground hover:scale-105"
                 }`}
                 style={
                   isActive ? { boxShadow: `0 4px 20px ${current.glow}` } : {}

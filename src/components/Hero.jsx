@@ -10,7 +10,13 @@ import {
   IconShieldCheck,
   IconWifi,
   IconClock,
+  IconClipboard,
+  IconCopy,
+  IconBookmark,
+  IconFileText,
+  IconSearch,
 } from "@tabler/icons-react";
+import { Link } from "@/components/ui/link";
 
 const TRUST_ITEMS = [
   { icon: IconShieldCheck, text: "No accounts needed" },
@@ -116,6 +122,24 @@ export function Hero() {
         }
       );
 
+      const prefersReduced = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+
+      if (!prefersReduced) {
+        gsap.utils.toArray(".floating-icon").forEach((el, i) => {
+          gsap.to(el, {
+            y: `${15 + i * 5}`,
+            x: `${(i % 2 === 0 ? 1 : -1) * (8 + i * 3)}`,
+            rotation: (i % 2 === 0 ? 1 : -1) * 5,
+            duration: 4 + i * 0.8,
+            ease: "sine.inOut",
+            repeat: -1,
+            yoyo: true,
+          });
+        });
+      }
+
       return () => mm.revert();
     },
     { scope: containerRef }
@@ -143,6 +167,23 @@ export function Hero() {
 
         {/* Radial fade from center */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,var(--color-primary)/[0.08],transparent)]" />
+
+        {/* Floating icons — app-relevant */}
+        <div className="floating-icon absolute left-[8%] top-[18%] text-primary opacity-[0.08] dark:opacity-[0.12]">
+          <IconClipboard className="size-16 sm:size-20" stroke={1.5} />
+        </div>
+        <div className="floating-icon absolute right-[10%] top-[15%] text-primary opacity-[0.08] dark:opacity-[0.12]">
+          <IconCopy className="size-14 sm:size-18" stroke={1.5} />
+        </div>
+        <div className="floating-icon absolute bottom-[22%] left-[15%] text-primary opacity-[0.06] dark:opacity-[0.1]">
+          <IconBookmark className="size-14 sm:size-16" stroke={1.5} />
+        </div>
+        <div className="floating-icon absolute bottom-[28%] right-[12%] text-primary opacity-[0.06] dark:opacity-[0.1]">
+          <IconFileText className="size-12 sm:size-14" stroke={1.5} />
+        </div>
+        <div className="floating-icon absolute left-[25%] bottom-[15%] text-primary opacity-[0.05] dark:opacity-[0.08]">
+          <IconSearch className="size-10 sm:size-12" stroke={1.5} />
+        </div>
       </div>
 
       <div className="relative z-10 mx-auto max-w-4xl">
@@ -158,9 +199,9 @@ export function Hero() {
         </div>
 
         {/* Title */}
-        <h1 className="mb-6 text-balance text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
-          <span className="hero-title-line block">Save prompts.</span>
-          <span className="hero-title-line block text-primary">
+        <h1 className="mb-6 flex flex-col gap-2 text-balance text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
+          <span className="hero-title-line">Save prompts.</span>
+          <span className="hero-title-line text-primary">
             Copy instantly.
           </span>
         </h1>
@@ -173,26 +214,26 @@ export function Hero() {
 
         {/* Actions */}
         <div className="hero-actions mt-10 flex flex-wrap items-center justify-center gap-4">
-          <a
+          <Link
             href="#download"
-            className="group inline-flex items-center gap-2.5 rounded-2xl bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all duration-300 hover:shadow-xl hover:shadow-primary/30 hover:brightness-110 active:scale-[0.97]"
+            className="group inline-flex items-center gap-2.5 rounded-2xl bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/35 hover:brightness-110 active:scale-[0.97] active:translate-y-0"
           >
             <IconDownload className="size-4 transition-transform group-hover:-translate-y-0.5" stroke={2.5} />
             Download Free
             <IconArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" stroke={2.5} />
-          </a>
-          <a
+          </Link>
+          <Link
             href="https://github.com/bilals2008/QuickPrompt"
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-2.5 rounded-2xl border border-border/80 bg-card/40 px-7 py-3.5 text-sm font-semibold text-foreground backdrop-blur-sm transition-all duration-300 hover:bg-card/70 hover:shadow-lg active:scale-[0.97]"
+            className="group inline-flex items-center gap-2.5 rounded-2xl border border-border/80 bg-card/40 px-7 py-3.5 text-sm font-semibold text-foreground backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-border hover:bg-card/70 hover:shadow-lg active:scale-[0.97] active:translate-y-0"
           >
             <IconBrandGithub
               className="size-4 transition-transform group-hover:rotate-6"
               stroke={2}
             />
             GitHub
-          </a>
+          </Link>
         </div>
 
         {/* Trust strip */}

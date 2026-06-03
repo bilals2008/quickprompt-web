@@ -9,6 +9,7 @@ import {
   IconSparkles,
 } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "@/components/ui/link";
 import { useTheme } from "@/hooks/useTheme";
 
 const LINKS = [
@@ -48,7 +49,7 @@ export function Navbar() {
     >
       <nav className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4 sm:px-6">
         {/* Logo */}
-        <a href="#" className="group flex items-center gap-2.5">
+        <Link href="#" className="group flex items-center gap-2.5">
           <div className="relative">
             <img
               src="/logo.avif"
@@ -59,30 +60,30 @@ export function Navbar() {
           <span className="text-sm font-bold tracking-tight text-foreground sm:text-[15px]">
             QuickPrompt
           </span>
-        </a>
+        </Link>
 
         {/* Desktop Nav — pill bar */}
         <div className="hidden items-center gap-0.5 rounded-full border border-border/50 bg-card/50 p-1 shadow-[0_2px_24px_rgba(0,0,0,0.06)] backdrop-blur-xl transition-all duration-300 md:flex">
           {LINKS.map((l) => (
-            <a
+            <Link
               key={l.href}
               href={l.href}
-              className="relative rounded-full px-4 py-2 text-[13px] font-medium text-muted-foreground transition-colors hover:text-foreground"
+              className="relative rounded-full px-4 py-2 text-[13px] font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
             >
               {l.label}
-            </a>
+            </Link>
           ))}
           <div className="mx-1 h-4 w-px bg-border/60" />
-          <a
+          <Link
             href="https://github.com/bilals2008/QuickPrompt"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 rounded-full px-3 py-2 text-[13px] font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+            className="flex items-center gap-1.5 rounded-full px-3 py-2 text-[13px] font-medium text-muted-foreground transition-all duration-200 hover:bg-accent hover:text-foreground active:scale-95"
             aria-label="GitHub"
           >
             <IconBrandGithub className="size-3.5" stroke={2} />
             <span className="hidden lg:inline">GitHub</span>
-          </a>
+          </Link>
         </div>
 
         {/* Right Side */}
@@ -90,36 +91,33 @@ export function Navbar() {
           <Button
             variant="ghost"
             size="icon"
-            className="size-9 rounded-full transition-colors duration-200"
+            className="size-9 rounded-full transition-all duration-200 hover:bg-accent hover:scale-110 active:scale-95"
             onClick={toggleTheme}
             aria-label="Toggle theme"
           >
-            <IconSun
-              className="size-4 transition-transform duration-300"
-              stroke={2}
-            />
-            <IconMoon
-              className="size-4 absolute transition-transform duration-300"
-              stroke={2}
-            />
+            {theme === "dark" ? (
+              <IconSun className="size-4" stroke={2} />
+            ) : (
+              <IconMoon className="size-4" stroke={2} />
+            )}
           </Button>
 
           <Button
             asChild
             size="sm"
-            className="hidden rounded-full px-4 py-2 text-[13px] shadow-[0_0_20px_var(--color-primary)/0.12] transition-shadow duration-300 hover:shadow-[0_0_28px_var(--color-primary)/0.2] sm:inline-flex"
+            className="hidden rounded-full px-4 py-2 text-[13px] shadow-[0_0_20px_var(--color-primary)/0.12] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_28px_var(--color-primary)/0.25] hover:brightness-110 active:scale-95 active:translate-y-0 sm:inline-flex"
           >
-            <a href="#download">
+            <Link href="#download">
               <IconDownload className="size-3.5" stroke={2.5} />
               Download
-            </a>
+            </Link>
           </Button>
 
           {/* Mobile Hamburger */}
           <Button
             variant="ghost"
             size="icon"
-            className="size-9 rounded-full md:hidden"
+            className="size-9 rounded-full transition-all duration-200 hover:bg-accent hover:scale-105 active:scale-95 md:hidden"
             onClick={() => setOpen((o) => !o)}
             aria-label="Toggle menu"
           >
@@ -144,30 +142,30 @@ export function Navbar() {
         <div className="bg-background/95 px-4 py-4 backdrop-blur-xl">
           <div className="rounded-2xl border border-border/40 bg-card/60 p-2 shadow-lg">
             {LINKS.map((l) => (
-              <a
+              <Link
                 key={l.href}
                 href={l.href}
                 onClick={() => setOpen(false)}
-                className="flex items-center justify-between rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+                className="flex items-center justify-between rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground transition-all duration-200 hover:bg-accent hover:text-foreground active:scale-[0.98]"
               >
                 {l.label}
-              </a>
+              </Link>
             ))}
-            <a
+            <Link
               href="https://github.com/bilals2008/QuickPrompt"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+              className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground transition-all duration-200 hover:bg-accent hover:text-foreground active:scale-[0.98]"
             >
               <IconBrandGithub className="size-4" stroke={1.75} />
               GitHub
-            </a>
+            </Link>
             <div className="mt-2 border-t border-border/50 pt-2">
-              <Button asChild size="sm" className="h-10 w-full rounded-xl">
-                <a href="#download" onClick={() => setOpen(false)}>
+              <Button asChild size="sm" className="h-10 w-full rounded-xl transition-all duration-200 hover:brightness-110 active:scale-[0.98]">
+                <Link href="#download" onClick={() => setOpen(false)}>
                   <IconDownload className="size-3.5" stroke={2.5} />
                   Download
-                </a>
+                </Link>
               </Button>
             </div>
           </div>

@@ -7,6 +7,7 @@ import {
   IconShieldCheck,
   IconSparkles,
 } from "@tabler/icons-react";
+import { Link } from "@/components/ui/link";
 
 const WINDOWS_LOGO =
   "https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/windows/default.svg";
@@ -149,7 +150,7 @@ export function Download() {
         {/* Cards */}
         <div className="dl-grid mt-14 grid gap-4 sm:grid-cols-2">
           {PLATFORMS.map((p) => (
-            <a
+            <Link
               key={p.name}
               href={p.href}
               target="_blank"
@@ -178,7 +179,7 @@ export function Download() {
                   stroke={2}
                 />
               </div>
-            </a>
+            </Link>
           ))}
         </div>
 
