@@ -1,5 +1,13 @@
 import { useState, useEffect, useRef } from "react";
-import { IconSun, IconMoon, IconMenu2, IconX, IconBrandGithub, IconDownload } from "@tabler/icons-react";
+import {
+  IconSun,
+  IconMoon,
+  IconMenu2,
+  IconX,
+  IconBrandGithub,
+  IconDownload,
+  IconSparkles,
+} from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/hooks/useTheme";
 
@@ -24,13 +32,18 @@ export function Navbar() {
   return (
     <header
       ref={headerRef}
-      className="sticky top-0 z-50 w-full border-b transition-all duration-300"
+      className="sticky top-0 z-50 w-full transition-all duration-300"
       style={{
         borderColor: scrolled ? "var(--color-border)" : "transparent",
+        borderBottomWidth: "1px",
+        borderBottomStyle: "solid",
         backgroundColor: scrolled
-          ? "color-mix(in srgb, var(--color-background) 80%, transparent)"
+          ? "color-mix(in srgb, var(--color-background) 72%, transparent)"
           : "transparent",
-        backdropFilter: scrolled ? "blur(20px) saturate(180%)" : "blur(0px)",
+        backdropFilter: scrolled ? "blur(24px) saturate(180%)" : "blur(0px)",
+        WebkitBackdropFilter: scrolled
+          ? "blur(24px) saturate(180%)"
+          : "blur(0px)",
       }}
     >
       <nav className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4 sm:px-6">
@@ -40,7 +53,7 @@ export function Navbar() {
             <img
               src="/logo.avif"
               alt="QuickPrompt"
-              className="size-8 rounded-lg object-cover shadow-[0_0_0_1px_var(--color-border)] transition-all group-hover:shadow-[0_0_12px_var(--color-primary)/0.3]"
+              className="size-8 rounded-lg object-cover shadow-[0_0_0_1px_var(--color-border)] transition-all duration-300 group-hover:shadow-[0_0_16px_var(--color-primary)/0.3]"
             />
           </div>
           <span className="text-sm font-bold tracking-tight text-foreground sm:text-[15px]">
@@ -48,51 +61,56 @@ export function Navbar() {
           </span>
         </a>
 
-        {/* Desktop Nav */}
-        <div className="hidden items-center gap-1 rounded-full bg-card/65 p-1 shadow-[inset_0_0_0_1px_var(--color-border),0_2px_20px_rgba(0,0,0,0.08)] backdrop-blur-xl md:flex">
+        {/* Desktop Nav — pill bar */}
+        <div className="hidden items-center gap-0.5 rounded-full border border-border/50 bg-card/50 p-1 shadow-[0_2px_24px_rgba(0,0,0,0.06)] backdrop-blur-xl transition-all duration-300 md:flex">
           {LINKS.map((l) => (
             <a
               key={l.href}
               href={l.href}
-              className="relative rounded-full px-3.5 py-2 text-[13px] font-medium text-muted-foreground transition-colors hover:text-foreground"
+              className="relative rounded-full px-4 py-2 text-[13px] font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
               {l.label}
             </a>
           ))}
+          <div className="mx-1 h-4 w-px bg-border/60" />
           <a
             href="https://github.com/bilals2008/QuickPrompt"
             target="_blank"
             rel="noopener noreferrer"
-            className="grid size-8 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+            className="flex items-center gap-1.5 rounded-full px-3 py-2 text-[13px] font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
             aria-label="GitHub"
           >
-            <IconBrandGithub className="size-4" stroke={1.75} />
+            <IconBrandGithub className="size-3.5" stroke={2} />
+            <span className="hidden lg:inline">GitHub</span>
           </a>
         </div>
 
         {/* Right Side */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
           <Button
             variant="ghost"
             size="icon"
-            className="size-9 rounded-full"
+            className="size-9 rounded-full transition-colors duration-200"
             onClick={toggleTheme}
             aria-label="Toggle theme"
           >
-            {theme === "dark" ? (
-              <IconSun className="size-4" stroke={2} />
-            ) : (
-              <IconMoon className="size-4" stroke={2} />
-            )}
+            <IconSun
+              className="size-4 transition-transform duration-300"
+              stroke={2}
+            />
+            <IconMoon
+              className="size-4 absolute transition-transform duration-300"
+              stroke={2}
+            />
           </Button>
 
           <Button
             asChild
             size="sm"
-            className="hidden rounded-full px-4 shadow-[0_0_20px_var(--color-primary)/0.16] sm:inline-flex"
+            className="hidden rounded-full px-4 py-2 text-[13px] shadow-[0_0_20px_var(--color-primary)/0.12] transition-shadow duration-300 hover:shadow-[0_0_28px_var(--color-primary)/0.2] sm:inline-flex"
           >
             <a href="#download">
-              <IconDownload className="size-3.5" stroke={2} />
+              <IconDownload className="size-3.5" stroke={2.5} />
               Download
             </a>
           </Button>
@@ -101,7 +119,7 @@ export function Navbar() {
           <Button
             variant="ghost"
             size="icon"
-            className="size-9 rounded-full bg-card/70 md:hidden"
+            className="size-9 rounded-full md:hidden"
             onClick={() => setOpen((o) => !o)}
             aria-label="Toggle menu"
           >
@@ -116,14 +134,15 @@ export function Navbar() {
 
       {/* Mobile Menu */}
       <div
-        className="overflow-hidden border-t border-border transition-all duration-300 md:hidden"
+        className="overflow-hidden border-t border-border/60 md:hidden"
         style={{
           maxHeight: open ? "400px" : "0px",
           opacity: open ? 1 : 0,
+          transition: "max-height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.25s ease",
         }}
       >
         <div className="bg-background/95 px-4 py-4 backdrop-blur-xl">
-          <div className="rounded-2xl bg-card/70 p-2 shadow-[inset_0_0_0_1px_var(--color-border)]">
+          <div className="rounded-2xl border border-border/40 bg-card/60 p-2 shadow-lg">
             {LINKS.map((l) => (
               <a
                 key={l.href}
@@ -138,15 +157,15 @@ export function Navbar() {
               href="https://github.com/bilals2008/QuickPrompt"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+              className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
             >
               <IconBrandGithub className="size-4" stroke={1.75} />
               GitHub
             </a>
-            <div className="mt-2 border-t border-border pt-2">
+            <div className="mt-2 border-t border-border/50 pt-2">
               <Button asChild size="sm" className="h-10 w-full rounded-xl">
                 <a href="#download" onClick={() => setOpen(false)}>
-                  <IconDownload className="size-3.5" stroke={2} />
+                  <IconDownload className="size-3.5" stroke={2.5} />
                   Download
                 </a>
               </Button>
