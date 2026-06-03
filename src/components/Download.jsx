@@ -79,9 +79,7 @@ export function Download() {
             rel="noopener noreferrer"
             className="download-card group flex items-center gap-4 rounded-2xl border border-border bg-card p-6 text-left transition-all hover:border-primary/30 hover:bg-primary/5"
           >
-            <div className="flex size-12 items-center justify-center rounded-xl bg-primary/10 transition-colors group-hover:bg-primary/15">
-              <img src={WINDOWS_LOGO} alt="Windows" className="size-6" />
-            </div>
+            <img src={WINDOWS_LOGO} alt="Windows" className="size-10" />
             <div>
               <p className="text-base font-semibold text-foreground">Windows</p>
               <p className="text-sm text-muted-foreground">Download for Windows</p>
@@ -95,9 +93,7 @@ export function Download() {
             rel="noopener noreferrer"
             className="download-card group flex items-center gap-4 rounded-2xl border border-border bg-card p-6 text-left transition-all hover:border-primary/30 hover:bg-primary/5"
           >
-            <div className="flex size-12 items-center justify-center rounded-xl bg-primary/10 transition-colors group-hover:bg-primary/15">
-              <img src={APPLE_LOGO} alt="macOS" className="size-6" />
-            </div>
+            <img src={APPLE_LOGO} alt="macOS" className="size-10" />
             <div>
               <p className="text-base font-semibold text-foreground">macOS</p>
               <p className="text-sm text-muted-foreground">Download for macOS</p>
