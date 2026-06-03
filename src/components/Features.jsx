@@ -166,9 +166,8 @@ export function Features() {
           <p className="features-label text-sm font-semibold uppercase tracking-widest text-primary">
             Features
           </p>
-          <h2 className="features-title mt-4 text-balance text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-            Everything you need,
-            <br />
+          <h2 className="features-title mt-4 text-balance text-2xl font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl lg:text-5xl">
+            Everything you need,{" "}
             <span className="text-muted-foreground/60">nothing you don&apos;t.</span>
           </h2>
           <p className="features-subtitle mx-auto mt-5 max-w-lg text-base leading-relaxed text-muted-foreground">
