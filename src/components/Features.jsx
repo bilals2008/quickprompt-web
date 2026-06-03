@@ -1,3 +1,6 @@
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import { gsap } from "gsap";
 import {
   IconBolt,
   IconCheck,
@@ -53,10 +56,61 @@ const FEATURES = [
 ];
 
 export function Features() {
+  const containerRef = useRef(null);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+
+      mm.add(
+        {
+          isDesktop: "(min-width: 768px)",
+          reduceMotion: "(prefers-reduced-motion: reduce)",
+        },
+        (context) => {
+          const { reduceMotion } = context.conditions;
+
+          gsap.from(".features-header", {
+            autoAlpha: 0,
+            y: 30,
+            duration: reduceMotion ? 0 : 0.7,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: ".features-header",
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          });
+
+          gsap.from(".feature-card", {
+            autoAlpha: 0,
+            y: 40,
+            scale: 0.95,
+            duration: reduceMotion ? 0 : 0.6,
+            ease: "power3.out",
+            stagger: 0.08,
+            scrollTrigger: {
+              trigger: ".features-grid",
+              start: "top 80%",
+              toggleActions: "play none none none",
+            },
+          });
+        }
+      );
+
+      return () => mm.revert();
+    },
+    { scope: containerRef }
+  );
+
   return (
-    <section className="border-t border-border bg-card py-24">
+    <section
+      ref={containerRef}
+      id="features"
+      className="border-t border-border bg-card py-24"
+    >
       <div className="mx-auto max-w-5xl px-6">
-        <div className="text-center">
+        <div className="features-header text-center">
           <p className="text-sm font-semibold uppercase tracking-widest text-primary">
             Features
           </p>
@@ -65,9 +119,9 @@ export function Features() {
           </h2>
         </div>
 
-        <div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="features-grid mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {FEATURES.map((f) => (
-            <div key={f.title} className="group">
+            <div key={f.title} className="feature-card group">
               <div className="mb-4 flex size-10 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
                 <f.icon className="size-5 text-primary" stroke={2} />
               </div>
