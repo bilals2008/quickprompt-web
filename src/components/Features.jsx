@@ -114,7 +114,7 @@ export function Features() {
           <p className="text-sm font-semibold uppercase tracking-widest text-primary">
             Features
           </p>
-          <h2 className="mt-3 font-[var(--font-heading)] text-3xl font-bold tracking-tight sm:text-4xl">
+          <h2 className="mt-3 text-balance text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
             Everything you need, nothing you don&apos;t.
           </h2>
         </div>
@@ -125,7 +125,7 @@ export function Features() {
               <div className="mb-4 flex size-10 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/15">
                 <f.icon className="size-5 text-primary" stroke={2} />
               </div>
-              <h3 className="font-[var(--font-heading)] text-base font-semibold">
+              <h3 className="text-base font-semibold text-foreground">
                 {f.title}
               </h3>
               <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">

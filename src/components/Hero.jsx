@@ -88,14 +88,14 @@ export function Hero() {
           <span>Now available for Windows & macOS</span>
         </div>
 
-        <h1 className="hero-title font-[var(--font-heading)] text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl">
+        <h1 className="hero-title text-balance text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl">
           Save prompts.
           <br />
           <span className="text-primary">Copy instantly.</span>
         </h1>
 
-        <p className="hero-subtitle mx-auto mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
-          A fast, offline-first prompt manager. No accounts, no cloud — just your prompts, organized and ready to copy with one click.
+        <p className="hero-subtitle mx-auto mt-6 max-w-xl text-pretty text-lg leading-relaxed text-muted-foreground">
+          A fast, offline-first prompt manager. No accounts, no cloud — just your prompts, ready to copy.
         </p>
 
         <div className="hero-actions mt-10 flex flex-wrap items-center justify-center gap-4">
