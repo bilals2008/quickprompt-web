@@ -141,6 +141,39 @@ export function Download() {
     { scope: containerRef }
   );
 
+  useGSAP(() => {
+    const cards = containerRef.current?.querySelectorAll(".dl-card");
+    if (!cards) return;
+
+    cards.forEach((card) => {
+      card.addEventListener("mouseenter", () => {
+        gsap.to(card, {
+          y: -6,
+          duration: 0.4,
+          ease: "power2.out",
+          overwrite: "auto",
+        });
+      });
+      card.addEventListener("mouseleave", () => {
+        gsap.to(card, {
+          y: 0,
+          duration: 0.5,
+          ease: "power2.out",
+          overwrite: "auto",
+        });
+        card.style.setProperty("--mouse-x", "50%");
+        card.style.setProperty("--mouse-y", "50%");
+      });
+      card.addEventListener("mousemove", (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        card.style.setProperty("--mouse-x", `${x}%`);
+        card.style.setProperty("--mouse-y", `${y}%`);
+      });
+    });
+  }, { scope: containerRef });
+
   return (
     <section
       ref={containerRef}
@@ -158,14 +191,14 @@ export function Download() {
         />
       </div>
 
-      <div className="relative mx-auto max-w-3xl px-6 text-center">
+      <div className="relative mx-auto max-w-5xl px-6 text-center">
         <div className="download-header">
           <div className="dl-label mb-4 inline-flex items-center gap-2 rounded-full border border-border/50 bg-card/40 px-3.5 py-1.5 text-xs font-medium text-muted-foreground backdrop-blur-sm">
             <IconSparkles className="size-3.5 text-primary" stroke={2.5} />
             Free &amp; open source
           </div>
 
-          <h2 className="dl-title text-balance text-2xl font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl lg:whitespace-nowrap lg:text-5xl">
+          <h2 className="dl-title text-balance text-2xl font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl lg:text-5xl">
             Get QuickPrompt on your machine.
           </h2>
 
@@ -192,7 +225,7 @@ export function Download() {
           )}
         </div>
 
-        <div className="dl-grid mt-14 grid gap-4 sm:grid-cols-3">
+        <div className="dl-grid mt-14 grid gap-5 sm:grid-cols-3">
           {PLATFORMS.map((p) => {
             const Tag = p.comingSoon ? "div" : Link;
             const linkProps = p.comingSoon
@@ -202,13 +235,28 @@ export function Download() {
               <Tag
                 key={p.name}
                 {...linkProps}
-                className={`dl-card group relative flex flex-col gap-4 rounded-2xl border border-border/60 bg-card/40 p-6 text-left backdrop-blur-sm transition-all duration-300 ${
+                className={`dl-card group relative flex flex-col items-center rounded-2xl border border-border bg-card p-8 text-center transition-all duration-300 will-change-transform ${
                   p.comingSoon
                     ? "opacity-60"
-                    : "hover:-translate-y-1 hover:border-primary/30 hover:bg-card/70 hover:shadow-xl hover:shadow-primary/[0.06]"
+                    : "hover:border-transparent"
                 }`}
               >
-                <div className="pointer-events-none absolute -inset-px rounded-2xl bg-gradient-to-br from-primary/[0.06] to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                {!p.comingSoon && (
+                  <div
+                    className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                    style={{
+                      background: `radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), var(--color-primary)/[0.08], transparent 40%)`,
+                    }}
+                  />
+                )}
+
+                {!p.comingSoon && (
+                  <div className="absolute -inset-px rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                    style={{
+                      background: `linear-gradient(135deg, var(--color-primary)/[0.15], transparent 50%, var(--color-primary)/[0.08])`,
+                    }}
+                  />
+                )}
 
                 {p.recommended && (
                   <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 rounded-full bg-primary px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-primary-foreground shadow-sm">
@@ -223,36 +271,67 @@ export function Download() {
                   </div>
                 )}
 
-                <div className="relative flex items-center gap-4">
-                  <div className="flex size-12 shrink-0 items-center justify-center rounded-xl border border-border/50 bg-background/60 transition-all duration-300 group-hover:border-primary/20 group-hover:shadow-lg group-hover:shadow-primary/[0.06]">
-                    <img src={p.logo} alt={p.name} className="size-6" />
-                  </div>
+                <div className="relative grid size-20 place-items-center rounded-full">
+                  <div className="absolute inset-0 rounded-full opacity-20 blur-xl transition-opacity duration-500 group-hover:opacity-40"
+                    style={{
+                      background: `var(--color-primary)`,
+                    }}
+                  />
+                  <div className="absolute inset-0 rounded-full border transition-all duration-500"
+                    style={{
+                      borderColor: `color-mix(in srgb, var(--color-primary) 25%, transparent)`,
+                    }}
+                  />
+                  <div className="absolute -inset-2 rounded-full border border-dashed transition-all duration-500 group-hover:rotate-90"
+                    style={{
+                      borderColor: `color-mix(in srgb, var(--color-primary) 18%, transparent)`,
+                    }}
+                  />
+                  <img src={p.logo} alt={p.name} className="relative z-10 size-9" />
+                </div>
 
-                  <div className="flex-1">
-                    <p className="text-base font-semibold text-foreground">
-                      {p.name}
-                    </p>
+                <div className="relative mt-6 flex flex-col items-center gap-3">
+                  <p className="text-lg font-semibold text-foreground">{p.name}</p>
+
+                  <div className="flex flex-wrap justify-center gap-1.5">
+                    {p.architectures.map((arch) => (
+                      <span
+                        key={arch}
+                        className="inline-flex items-center rounded-md border border-border/40 bg-background/40 px-2 py-0.5 text-[11px] font-medium text-muted-foreground/80"
+                      >
+                        {arch}
+                      </span>
+                    ))}
                   </div>
 
                   {!p.comingSoon && (
-                    <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 transition-all duration-300 group-hover:bg-primary group-hover:text-primary-foreground group-hover:shadow-lg group-hover:shadow-primary/20">
-                      <IconDownload
-                        className="size-5 text-primary transition-all duration-300 group-hover:-translate-y-0.5 group-hover:text-primary-foreground"
-                        stroke={2}
-                      />
+                    <div className="mt-1 inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+                      <span className="inline-block size-1.5 rounded-full bg-primary" />
+                      Ready to download
+                    </div>
+                  )}
+
+                  {p.comingSoon && (
+                    <div className="mt-1 inline-flex items-center gap-1.5 rounded-full bg-muted px-3 py-1 text-xs font-medium text-muted-foreground">
+                      <IconSparkles className="size-3" stroke={2} />
+                      Coming soon
                     </div>
                   )}
                 </div>
 
-                <div className="relative flex flex-wrap gap-1.5">
-                  {p.architectures.map((arch) => (
-                    <span
-                      key={arch}
-                      className="inline-flex items-center rounded-md border border-border/40 bg-background/40 px-2 py-0.5 text-[11px] font-medium text-muted-foreground/80 transition-colors group-hover:border-primary/20 group-hover:text-foreground/80"
-                    >
-                      {arch}
-                    </span>
-                  ))}
+                <div className="relative mt-6 w-full">
+                  {!p.comingSoon && (
+                    <div className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-2.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all duration-300 group-hover:shadow-xl group-hover:shadow-primary/30">
+                      <IconDownload className="size-4" stroke={2} />
+                      Download for {p.name}
+                    </div>
+                  )}
+                  {p.comingSoon && (
+                    <div className="flex w-full items-center justify-center gap-2 rounded-xl border border-border/60 bg-card/50 py-2.5 text-sm font-medium text-muted-foreground">
+                      <IconSparkles className="size-4" stroke={2} />
+                      Notify me
+                    </div>
+                  )}
                 </div>
               </Tag>
             );
@@ -282,8 +361,6 @@ export function Download() {
             </div>
           ))}
         </div>
-
-
       </div>
     </section>
   );
