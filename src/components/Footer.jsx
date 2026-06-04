@@ -39,7 +39,7 @@ export function Footer() {
               href="https://github.com/bilals2008"
               target="_blank"
               rel="noreferrer"
-              className="cursor-pointer font-medium text-foreground transition-colors hover:text-primary"
+              className="cursor-pointer font-medium text-foreground transition-all duration-300 hover:text-primary hover:underline-offset-2 active:scale-95"
             >
               Muhammad Bilal Hassan
             </a>
@@ -55,12 +55,12 @@ export function Footer() {
                   target="_blank"
                   rel="noreferrer"
                   aria-label={s.label}
-                  className="flex size-9 items-center justify-center rounded-lg transition-colors hover:bg-accent"
+                  className="group flex size-9 items-center justify-center rounded-lg transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary/10 hover:shadow-lg hover:shadow-primary/[0.08] active:scale-90"
                 >
                   <img
                     src={isDark ? s.icon.dark : s.icon.light}
                     alt={s.label}
-                    className="size-5"
+                    className="size-5 opacity-60 transition-all duration-300 group-hover:scale-110 group-hover:opacity-100"
                   />
                 </a>
               );
@@ -72,7 +72,7 @@ export function Footer() {
               href="https://github.com/bilals2008/QuickPrompt"
               target="_blank"
               rel="noreferrer"
-              className="flex cursor-pointer items-center gap-1.5 transition-colors hover:text-foreground"
+              className="flex cursor-pointer items-center gap-1.5 transition-all duration-300 hover:text-foreground active:scale-95"
             >
               <IconBrandGithub className="size-4" stroke={1.75} />
               Source
@@ -81,7 +81,7 @@ export function Footer() {
               href="https://github.com/bilals2008/QuickPrompt/issues"
               target="_blank"
               rel="noreferrer"
-              className="cursor-pointer transition-colors hover:text-foreground"
+              className="cursor-pointer transition-all duration-300 hover:text-foreground active:scale-95"
             >
               Issues
             </a>
@@ -89,7 +89,7 @@ export function Footer() {
               href="https://github.com/bilals2008/QuickPrompt/releases"
               target="_blank"
               rel="noreferrer"
-              className="cursor-pointer transition-colors hover:text-foreground"
+              className="cursor-pointer transition-all duration-300 hover:text-foreground active:scale-95"
             >
               Releases
             </a>
