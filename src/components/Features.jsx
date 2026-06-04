@@ -12,21 +12,37 @@ import {
   IconRocket,
 } from "@tabler/icons-react";
 
-function ScreenshotCard({ icon: Icon, title, src }) {
+function FeatureCard({ icon: Icon, title }) {
   return (
-    <div className="w-full overflow-hidden rounded-xl border border-border/50 bg-card/30 shadow-xl shadow-black/10 backdrop-blur-sm dark:shadow-black/30 sm:w-[400px]">
-      <div className="flex items-center gap-1.5 border-b border-border/40 bg-card/50 px-3 py-2">
-        <div className="flex gap-1">
-          <div className="size-2 rounded-full bg-red-400/80" />
-          <div className="size-2 rounded-full bg-yellow-400/80" />
-          <div className="size-2 rounded-full bg-green-400/80" />
+    <div className="group w-full overflow-hidden rounded-2xl border border-border/50 bg-card shadow-2xl shadow-black/15 backdrop-blur-sm sm:w-[400px]">
+      <div className="flex items-center gap-2 border-b border-border/40 bg-card/60 px-4 py-2.5">
+        <div className="flex gap-1.5">
+          <div className="size-2.5 rounded-full bg-red-400/80" />
+          <div className="size-2.5 rounded-full bg-yellow-400/80" />
+          <div className="size-2.5 rounded-full bg-green-400/80" />
         </div>
-        <div className="flex items-center gap-1 text-[10px] text-muted-foreground">
-          <Icon className="size-3" stroke={2} />
-          <span className="font-medium">{title}</span>
+        <span className="ml-1 text-[11px] font-medium text-muted-foreground">
+          quickprompt
+        </span>
+      </div>
+      <div className="relative flex h-[400px] items-center justify-center overflow-hidden sm:h-[560px]">
+        <div className="relative flex flex-col items-center gap-5">
+          <div className="flex size-24 items-center justify-center rounded-2xl bg-primary shadow-2xl transition-transform duration-300 ease-out will-change-transform max-sm:group-active:scale-90 sm:size-20">
+            <Icon className="size-10 text-primary-foreground sm:size-9" stroke={1.5} />
+          </div>
+          <div className="flex gap-1.5">
+            {[0, 1, 2].map((i) => (
+              <div
+                key={i}
+                className="size-1.5 rounded-full bg-foreground/15"
+              />
+            ))}
+          </div>
+          <span className="text-xs font-medium text-muted-foreground/60">
+            {title}
+          </span>
         </div>
       </div>
-      <img src={src} alt={title} className="h-[400px] w-full object-cover sm:h-[600px]" />
     </div>
   );
 }
@@ -36,101 +52,45 @@ const FEATURES = [
     icon: IconBolt,
     title: "Instant Save",
     description: "Floating action button to save prompts in one click.",
-    imgs: [
-      "https://placehold.co/400x600/0a0a0f/f59e0b?text=Save+Panel",
-      "https://placehold.co/400x600/0a0a0f/f59e0b?text=Quick+Action",
-      "https://placehold.co/400x600/0a0a0f/f59e0b?text=Instant+Save",
-    ],
-    gradient: "from-amber-500 to-orange-500",
-    glow: "rgba(245,158,11,0.15)",
   },
   {
     icon: IconCheck,
     title: "One-Click Copy",
     description: "Copy any prompt to your clipboard instantly.",
-    imgs: [
-      "https://placehold.co/400x600/0a0a0f/10b981?text=Copy+Button",
-      "https://placehold.co/400x600/0a0a0f/10b981?text=Clipboard",
-      "https://placehold.co/400x600/0a0a0f/10b981?text=One+Click+Done",
-    ],
-    gradient: "from-emerald-500 to-teal-500",
-    glow: "rgba(16,185,129,0.15)",
   },
   {
     icon: IconSearch,
     title: "Full-Text Search",
     description: "Find any prompt across all your tags and content.",
-    imgs: [
-      "https://placehold.co/400x600/0a0a0f/0ea5e9?text=Search+Bar",
-      "https://placehold.co/400x600/0a0a0f/0ea5e9?text=Results",
-      "https://placehold.co/400x600/0a0a0f/0ea5e9?text=Filter+Tags",
-    ],
-    gradient: "from-sky-500 to-blue-500",
-    glow: "rgba(14,165,233,0.15)",
   },
   {
     icon: IconPalette,
     title: "Themes",
     description: "Light, Dark, Forest, Ocean — pick your style.",
-    imgs: [
-      "https://placehold.co/400x600/0a0a0f/8b5cf6?text=Dark+Theme",
-      "https://placehold.co/400x600/0a0a0f/8b5cf6?text=Light+Theme",
-      "https://placehold.co/400x600/0a0a0f/8b5cf6?text=Forest+Theme",
-    ],
-    gradient: "from-violet-500 to-purple-500",
-    glow: "rgba(139,92,246,0.15)",
   },
   {
     icon: IconKeyboard,
     title: "Keyboard-First",
     description: "Navigate everything without touching the mouse.",
-    imgs: [
-      "https://placehold.co/400x600/0a0a0f/ec4899?text=Shortcuts",
-      "https://placehold.co/400x600/0a0a0f/ec4899?text=Command+Palette",
-      "https://placehold.co/400x600/0a0a0f/ec4899?text=Hotkeys",
-    ],
-    gradient: "from-pink-500 to-rose-500",
-    glow: "rgba(236,72,153,0.15)",
   },
   {
     icon: IconStar,
     title: "Favorites",
     description: "Star your most-used prompts for quick access.",
-    imgs: [
-      "https://placehold.co/400x600/0a0a0f/eab308?text=Star+Button",
-      "https://placehold.co/400x600/0a0a0f/eab308?text=Favorites+List",
-      "https://placehold.co/400x600/0a0a0f/eab308?text=Quick+Access",
-    ],
-    gradient: "from-yellow-500 to-amber-500",
-    glow: "rgba(234,179,8,0.15)",
   },
   {
     icon: IconFolder,
     title: "Smart Tags",
     description: "Organize prompts with tags and autocomplete.",
-    imgs: [
-      "https://placehold.co/400x600/0a0a0f/14b8a6?text=Tag+Input",
-      "https://placehold.co/400x600/0a0a0f/14b8a6?text=Autocomplete",
-      "https://placehold.co/400x600/0a0a0f/14b8a6?text=Tag+Filter",
-    ],
-    gradient: "from-teal-500 to-cyan-500",
-    glow: "rgba(20,184,166,0.15)",
   },
   {
     icon: IconRocket,
     title: "Blazing Fast",
     description: "Electron + SQLite — launches instantly.",
-    imgs: [
-      "https://placehold.co/400x600/0a0a0f/ef4444?text=Launch+Screen",
-      "https://placehold.co/400x600/0a0a0f/ef4444?text=Instant+Load",
-      "https://placehold.co/400x600/0a0a0f/ef4444?text=No+Loading",
-    ],
-    gradient: "from-red-500 to-orange-500",
-    glow: "rgba(239,68,68,0.15)",
   },
 ];
 
-const FAN_ANGLES = [-8, 0, 8];
+const FAN_ANGLES = [-6, 0, 6];
 
 export function Features() {
   const [active, setActive] = useState(0);
@@ -138,7 +98,6 @@ export function Features() {
   const cardsRef = useRef([]);
   const focusedRef = useRef(null);
   const animatingRef = useRef(false);
-  const initializedRef = useRef(false);
 
   const current = FEATURES[active];
 
@@ -272,47 +231,18 @@ export function Features() {
   );
 
   useGSAP(() => {
-    if (!initializedRef.current) {
-      initializedRef.current = true;
-      cardsRef.current.forEach((card, i) => {
-        if (!card) return;
-        gsap.set(card, {
-          xPercent: i === 1 ? -50 : 0,
-          y: 0,
-          scale: 1,
-          rotation: FAN_ANGLES[i],
-          opacity: 1,
-          zIndex: i === 1 ? 10 : 0,
-        });
-      });
-      return;
-    }
-
-    const cards = cardsRef.current.filter(Boolean);
-    if (cards.length === 0) return;
-
-    cards.forEach((card, i) => {
-      gsap.killTweensOf(card);
+    cardsRef.current.forEach((card, i) => {
+      if (!card) return;
       gsap.set(card, {
         xPercent: i === 1 ? -50 : 0,
-        opacity: 0,
-        y: 40,
-        scale: 0.92,
+        y: 0,
+        scale: 1,
         rotation: FAN_ANGLES[i],
+        opacity: 1,
+        zIndex: i === 1 ? 10 : 0,
       });
     });
-
-    gsap.to(cards, {
-      xPercent: (i) => (i === 1 ? -50 : 0),
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      rotation: (i) => FAN_ANGLES[i],
-      duration: 0.5,
-      ease: "power3.out",
-      stagger: 0.06,
-    });
-  }, { dependencies: [active], scope: containerRef });
+  }, { scope: containerRef });
 
   return (
     <section
@@ -320,20 +250,19 @@ export function Features() {
       id="features"
       className="relative overflow-hidden py-28"
     >
-      {/* Background */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_0%,var(--color-primary)/[0.04],transparent)]" />
         <div
           className="absolute inset-0 opacity-[0.02] dark:opacity-[0.04]"
           style={{
-            backgroundImage: `radial-gradient(circle, currentColor 1px, transparent 1px)`,
+            backgroundImage:
+              "radial-gradient(circle, currentColor 1px, transparent 1px)",
             backgroundSize: "40px 40px",
           }}
         />
       </div>
 
       <div className="relative mx-auto max-w-6xl px-6">
-        {/* Header */}
         <div className="features-header mx-auto max-w-2xl text-center">
           <p className="text-sm font-semibold uppercase tracking-widest text-primary">
             Features
@@ -351,7 +280,6 @@ export function Features() {
           </p>
         </div>
 
-        {/* Tabs */}
         <div className="feature-tabs mx-auto mt-14 flex max-w-3xl flex-wrap items-center justify-center gap-2">
           {FEATURES.map((f, i) => {
             const Icon = f.icon;
@@ -362,12 +290,9 @@ export function Features() {
                 onClick={() => switchTab(i)}
                 className={`flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-medium transition-all duration-300 active:scale-95 ${
                   isActive
-                    ? `bg-gradient-to-r ${f.gradient} text-white shadow-lg`
-                    : "bg-card/50 text-muted-foreground hover:bg-card hover:text-foreground hover:scale-105"
+                    ? "bg-primary text-primary-foreground shadow-lg"
+                    : "bg-card/50 text-muted-foreground hover:scale-105 hover:bg-card hover:text-foreground"
                 }`}
-                style={
-                  isActive ? { boxShadow: `0 4px 20px ${current.glow}` } : {}
-                }
               >
                 <Icon className="size-4" stroke={2} />
                 <span className="hidden sm:inline">{f.title}</span>
@@ -376,74 +301,62 @@ export function Features() {
           })}
         </div>
 
-        {/* 3-card fan — desktop only, single card on mobile */}
         <div className="feature-showcase mx-auto mt-16 flex items-center justify-center">
-          {/* Mobile: single center card */}
-          <div className="sm:hidden">
-            <ScreenshotCard
-              icon={current.icon}
-              title={current.title}
-              src={current.imgs[1]}
-            />
+          <div className="w-full px-4 sm:hidden">
+            <FeatureCard icon={current.icon} title={current.title} />
           </div>
 
-          {/* Desktop: 3-card fan */}
           <div className="relative hidden h-[640px] w-full max-w-4xl sm:block">
-            {/* Left card */}
             <div
               ref={(el) => (cardsRef.current[0] = el)}
-              className="absolute left-0 top-8 cursor-pointer"
+              className="absolute left-0 top-8 cursor-pointer max-sm:active:scale-95"
               style={{ transformOrigin: "bottom center" }}
               onClick={() => focusCard(0)}
             >
-              <ScreenshotCard
-                icon={current.icon}
-                title={current.title}
-                src={current.imgs[0]}
-              />
+              <FeatureCard icon={current.icon} title={current.title} />
             </div>
 
-            {/* Center card */}
             <div
               ref={(el) => (cardsRef.current[1] = el)}
-              className="absolute left-1/2 top-0 z-10 cursor-pointer"
+              className="absolute left-1/2 top-0 z-10 cursor-pointer max-sm:active:scale-95"
               style={{ transformOrigin: "bottom center" }}
               onClick={() => focusCard(1)}
             >
-              <ScreenshotCard
-                icon={current.icon}
-                title={current.title}
-                src={current.imgs[1]}
-              />
+              <FeatureCard icon={current.icon} title={current.title} />
             </div>
 
-            {/* Right card */}
             <div
               ref={(el) => (cardsRef.current[2] = el)}
-              className="absolute right-0 top-8 cursor-pointer"
+              className="absolute right-0 top-8 cursor-pointer max-sm:active:scale-95"
               style={{ transformOrigin: "bottom center" }}
               onClick={() => focusCard(2)}
             >
-              <ScreenshotCard
-                icon={current.icon}
-                title={current.title}
-                src={current.imgs[2]}
-              />
+              <FeatureCard icon={current.icon} title={current.title} />
             </div>
           </div>
         </div>
 
-        {/* Feature description */}
-        <div className="feature-showcase mx-auto mt-6 flex items-center justify-center gap-3">
-          <div
-            className={`inline-flex size-8 items-center justify-center rounded-lg bg-gradient-to-br ${current.gradient} shadow-md`}
-            style={{ boxShadow: `0 4px 16px ${current.glow}` }}
-          >
-            <current.icon className="size-4 text-white" stroke={2} />
+        <div className="feature-showcase mx-auto mt-8 flex flex-col items-center gap-3">
+          <div className="inline-flex size-10 items-center justify-center rounded-xl bg-primary shadow-lg">
+            <current.icon className="size-5 text-primary-foreground" stroke={2} />
           </div>
-          <p className="text-sm text-muted-foreground">
+          <p className="max-w-md text-center text-sm leading-relaxed text-muted-foreground">
             {current.description}
           </p>
+          <div className="mt-1 flex gap-2">
+            {FEATURES.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => switchTab(i)}
+                className={`h-1.5 rounded-full transition-all duration-500 ${
+                  i === active
+                    ? "w-6 bg-primary"
+                    : "w-1.5 bg-foreground/20 hover:bg-foreground/30"
+                }`}
+                aria-label={`Switch to ${FEATURES[i].title}`}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>
