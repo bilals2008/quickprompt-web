@@ -1,96 +1,114 @@
-import { useRef } from "react";
-import { useGSAP } from "@gsap/react";
-import { gsap } from "gsap";
-import { IconBrandGithub, IconPackage, IconBug } from "@tabler/icons-react";
-import { Link } from "@/components/ui/link";
+import { useEffect, useState } from "react";
+import { IconArrowUp, IconBrandGithub } from "@tabler/icons-react";
+import { useTheme } from "@/hooks/useTheme";
+import SOCIALS from "@/data/socials.json";
+
+const SOCIAL_ORDER = ["github", "x", "linkedin", "youtube", "discord"];
 
 export function Footer() {
-  const containerRef = useRef(null);
+  const [showTop, setShowTop] = useState(false);
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
 
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
+  useEffect(() => {
+    const onScroll = () => {
+      setShowTop(window.scrollY > 520);
+    };
 
-      mm.add(
-        {
-          reduceMotion: "(prefers-reduced-motion: reduce)",
-        },
-        (context) => {
-          const { reduceMotion } = context.conditions;
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
-          gsap.from(".footer-content", {
-            autoAlpha: 0,
-            y: 16,
-            duration: reduceMotion ? 0 : 0.5,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: ".footer-content",
-              start: "top 95%",
-              toggleActions: "play none none none",
-            },
-          });
-        }
-      );
-
-      return () => mm.revert();
-    },
-    { scope: containerRef }
-  );
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
-    <footer ref={containerRef} className="relative">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-      <div className="footer-content mx-auto flex max-w-5xl flex-col items-center justify-between gap-4 px-6 py-8 sm:flex-row">
-        <Link href="#" className="group flex items-center gap-2.5">
-          <img
-            src="/logo.avif"
-            alt="QuickPrompt"
-            className="size-5.5 rounded-md object-cover shadow-[0_0_0_1px_var(--color-border)] transition-shadow duration-300 group-hover:shadow-[0_0_12px_var(--color-primary)/0.25]"
-          />
-          <span className="text-[13px] font-semibold tracking-tight text-foreground">
-            QuickPrompt
-          </span>
-        </Link>
-
-        <p className="text-[13px] text-muted-foreground">
-          Built by{" "}
-          <span className="font-medium text-foreground/80">Muhammad Bilal Hassan</span>
-        </p>
-
-        <div className="flex items-center gap-1">
-          {[
-            {
-              href: "https://github.com/bilals2008/QuickPrompt/releases",
-              icon: IconPackage,
-              label: "Releases",
-            },
-            {
-              href: "https://github.com/bilals2008/QuickPrompt/issues",
-              icon: IconBug,
-              label: "Issues",
-            },
-            {
-              href: "https://github.com/bilals2008/QuickPrompt",
-              icon: IconBrandGithub,
-              label: "Source",
-            },
-          ].map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
+    <>
+      <footer className="border-t border-border bg-background">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 px-5 py-8 sm:flex-row">
+          <div className="flex flex-wrap items-center justify-center gap-2 text-sm text-muted-foreground sm:justify-start">
+            <img
+              src="/logo.avif"
+              alt="QuickPrompt"
+              className="size-5 rounded object-cover"
+            />
+            <span>Built by</span>
+            <a
+              href="https://github.com/bilals2008"
               target="_blank"
-              rel="noopener noreferrer"
-              className="group/link flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-[13px] text-muted-foreground hover:bg-accent/60 hover:text-foreground"
+              rel="noreferrer"
+              className="cursor-pointer font-medium text-foreground transition-colors hover:text-primary"
             >
-              <link.icon
-                className="size-3.5 transition-transform duration-200 group-hover/link:scale-110"
-                stroke={2}
-              />
-              {link.label}
-            </Link>
-          ))}
+              Muhammad Bilal Hassan
+            </a>
+          </div>
+
+          <div className="flex items-center gap-3">
+            {SOCIAL_ORDER.map((key) => {
+              const s = SOCIALS[key];
+              return (
+                <a
+                  key={key}
+                  href={s.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={s.label}
+                  className="flex size-9 items-center justify-center rounded-lg transition-colors hover:bg-accent"
+                >
+                  <img
+                    src={isDark ? s.icon.dark : s.icon.light}
+                    alt={s.label}
+                    className="size-5"
+                  />
+                </a>
+              );
+            })}
+          </div>
+
+          <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-muted-foreground">
+            <a
+              href="https://github.com/bilals2008/QuickPrompt"
+              target="_blank"
+              rel="noreferrer"
+              className="flex cursor-pointer items-center gap-1.5 transition-colors hover:text-foreground"
+            >
+              <IconBrandGithub className="size-4" stroke={1.75} />
+              Source
+            </a>
+            <a
+              href="https://github.com/bilals2008/QuickPrompt/issues"
+              target="_blank"
+              rel="noreferrer"
+              className="cursor-pointer transition-colors hover:text-foreground"
+            >
+              Issues
+            </a>
+            <a
+              href="https://github.com/bilals2008/QuickPrompt/releases"
+              target="_blank"
+              rel="noreferrer"
+              className="cursor-pointer transition-colors hover:text-foreground"
+            >
+              Releases
+            </a>
+          </div>
         </div>
-      </div>
-    </footer>
+      </footer>
+
+      <button
+        type="button"
+        onClick={scrollToTop}
+        aria-label="Back to top"
+        className={`fixed bottom-5 right-5 z-50 grid size-11 place-items-center rounded-full bg-primary text-primary-foreground shadow-[0_12px_34px_var(--color-primary)/0.22] transition-all duration-300 hover:-translate-y-1 hover:bg-primary/90 ${
+          showTop
+            ? "translate-y-0 opacity-100"
+            : "pointer-events-none translate-y-3 opacity-0"
+        }`}
+      >
+        <IconArrowUp className="size-5" stroke={2} />
+      </button>
+    </>
   );
 }
