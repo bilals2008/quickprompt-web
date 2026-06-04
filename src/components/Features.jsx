@@ -130,77 +130,88 @@ const FEATURES = [
   },
 ];
 
+const FAN_ANGLES = [-8, 0, 8];
+
 export function Features() {
   const [active, setActive] = useState(0);
-  const [focusedCard, setFocusedCard] = useState(null);
   const containerRef = useRef(null);
   const cardsRef = useRef([]);
+  const focusedRef = useRef(null);
+  const animatingRef = useRef(false);
+  const initializedRef = useRef(false);
 
   const current = FEATURES[active];
 
   const focusCard = (idx) => {
-    if (focusedCard === idx) {
-      setFocusedCard(null);
-      cardsRef.current.forEach((card, i) => {
-        if (!card) return;
-        gsap.to(card, {
-          zIndex: i === 1 ? 10 : 0,
-          y: 0,
-          scale: 1,
-          rotateZ: i === 0 ? -8 : i === 2 ? 8 : 0,
-          opacity: 1,
-          duration: 0.4,
-          ease: "power2.out",
-        });
+    if (animatingRef.current) return;
+    animatingRef.current = true;
+
+    const wasFocused = focusedRef.current === idx;
+    focusedRef.current = wasFocused ? null : idx;
+
+    cardsRef.current.forEach((card, i) => {
+      if (!card) return;
+      gsap.killTweensOf(card);
+      const isFocused = !wasFocused && i === idx;
+
+      gsap.to(card, {
+        xPercent: i === 1 ? -50 : 0,
+        zIndex: isFocused ? 30 : i === 1 ? 10 : 0,
+        y: isFocused ? -20 : 0,
+        scale: isFocused ? 1.05 : 1,
+        rotation: isFocused ? 0 : FAN_ANGLES[i],
+        opacity: isFocused ? 1 : wasFocused ? 1 : 0.5,
+        duration: 0.35,
+        ease: "power2.out",
+        onComplete: () => {
+          animatingRef.current = false;
+        },
       });
-    } else {
-      setFocusedCard(idx);
-      cardsRef.current.forEach((card, i) => {
-        if (!card) return;
-        const isFocused = i === idx;
-        gsap.to(card, {
-          zIndex: isFocused ? 30 : 5,
-          y: isFocused ? -24 : 0,
-          scale: isFocused ? 1.08 : 0.95,
-          rotateZ: isFocused ? 0 : i === 0 ? -8 : i === 2 ? 8 : 0,
-          opacity: isFocused ? 1 : 0.5,
-          duration: 0.4,
-          ease: "power2.out",
-        });
-      });
-    }
+    });
   };
 
   const switchTab = (i) => {
-    if (i === active) return;
-    setFocusedCard(null);
-    const direction = i > active ? 1 : -1;
-    const cards = cardsRef.current.filter(Boolean);
+    if (i === active || animatingRef.current) return;
+    animatingRef.current = true;
+    focusedRef.current = null;
 
-    gsap.to(cards, {
+    const cards = cardsRef.current.filter(Boolean);
+    cards.forEach((card) => gsap.killTweensOf(card));
+
+    const tl = gsap.timeline({
+      onComplete: () => {
+        animatingRef.current = false;
+      },
+    });
+
+    tl.to(cards, {
+      xPercent: (j) => (j === 1 ? -50 : 0),
       opacity: 0,
       y: 30,
-      rotateZ: (idx) => (idx === 0 ? -15 : idx === 2 ? 15 : 0),
-      scale: 0.9,
-      duration: 0.25,
+      scale: 0.92,
+      rotation: (j) => FAN_ANGLES[j] * 1.5,
+      duration: 0.3,
       ease: "power2.in",
       stagger: 0.03,
-      onComplete: () => {
-        setActive(i);
-        gsap.fromTo(
-          cards,
-          { opacity: 0, y: 40, scale: 0.9 },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            rotateZ: (idx) => (idx === 0 ? -8 : idx === 2 ? 8 : 0),
-            duration: 0.5,
-            ease: "power3.out",
-            stagger: 0.06,
-          }
-        );
-      },
+    });
+
+    tl.call(() => setActive(i));
+
+    tl.set(cards, {
+      y: 40,
+      scale: 0.92,
+      rotation: (j) => FAN_ANGLES[j],
+    });
+
+    tl.to(cards, {
+      xPercent: (j) => (j === 1 ? -50 : 0),
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      rotation: (j) => FAN_ANGLES[j],
+      duration: 0.5,
+      ease: "power3.out",
+      stagger: 0.06,
     });
   };
 
@@ -230,7 +241,6 @@ export function Features() {
           });
 
           gsap.from(".feature-tabs", {
-            autoAutoAlpha: 0,
             autoAlpha: 0,
             y: 20,
             duration: reduceMotion ? 0 : 0.5,
@@ -260,6 +270,49 @@ export function Features() {
     },
     { scope: containerRef }
   );
+
+  useGSAP(() => {
+    if (!initializedRef.current) {
+      initializedRef.current = true;
+      cardsRef.current.forEach((card, i) => {
+        if (!card) return;
+        gsap.set(card, {
+          xPercent: i === 1 ? -50 : 0,
+          y: 0,
+          scale: 1,
+          rotation: FAN_ANGLES[i],
+          opacity: 1,
+          zIndex: i === 1 ? 10 : 0,
+        });
+      });
+      return;
+    }
+
+    const cards = cardsRef.current.filter(Boolean);
+    if (cards.length === 0) return;
+
+    cards.forEach((card, i) => {
+      gsap.killTweensOf(card);
+      gsap.set(card, {
+        xPercent: i === 1 ? -50 : 0,
+        opacity: 0,
+        y: 40,
+        scale: 0.92,
+        rotation: FAN_ANGLES[i],
+      });
+    });
+
+    gsap.to(cards, {
+      xPercent: (i) => (i === 1 ? -50 : 0),
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      rotation: (i) => FAN_ANGLES[i],
+      duration: 0.5,
+      ease: "power3.out",
+      stagger: 0.06,
+    });
+  }, { dependencies: [active], scope: containerRef });
 
   return (
     <section
@@ -339,7 +392,7 @@ export function Features() {
             {/* Left card */}
             <div
               ref={(el) => (cardsRef.current[0] = el)}
-              className="absolute left-[0%] top-8 cursor-pointer"
+              className="absolute left-0 top-8 cursor-pointer"
               style={{ transformOrigin: "bottom center" }}
               onClick={() => focusCard(0)}
             >
@@ -353,7 +406,7 @@ export function Features() {
             {/* Center card */}
             <div
               ref={(el) => (cardsRef.current[1] = el)}
-              className="absolute left-1/2 top-0 z-10 -translate-x-1/2 cursor-pointer"
+              className="absolute left-1/2 top-0 z-10 cursor-pointer"
               style={{ transformOrigin: "bottom center" }}
               onClick={() => focusCard(1)}
             >
@@ -367,7 +420,7 @@ export function Features() {
             {/* Right card */}
             <div
               ref={(el) => (cardsRef.current[2] = el)}
-              className="absolute right-[0%] top-8 cursor-pointer"
+              className="absolute right-0 top-8 cursor-pointer"
               style={{ transformOrigin: "bottom center" }}
               onClick={() => focusCard(2)}
             >
