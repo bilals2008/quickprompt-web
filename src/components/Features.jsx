@@ -11,6 +11,7 @@ import {
   IconFolder,
   IconRocket,
 } from "@tabler/icons-react";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 function FeatureCard({ icon: Icon, title }) {
   return (
@@ -25,24 +26,26 @@ function FeatureCard({ icon: Icon, title }) {
           quickprompt
         </span>
       </div>
-      <div className="relative flex h-[400px] items-center justify-center overflow-hidden sm:h-[560px]">
-        <div className="relative flex flex-col items-center gap-5">
-          <div className="flex size-24 items-center justify-center rounded-2xl bg-primary shadow-2xl transition-transform duration-300 ease-out will-change-transform max-sm:group-active:scale-90 sm:size-20">
-            <Icon className="size-10 text-primary-foreground sm:size-9" stroke={1.5} />
+      <AspectRatio ratio={10 / 14}>
+        <div className="relative flex h-full items-center justify-center overflow-hidden">
+          <div className="relative flex flex-col items-center gap-5">
+            <div className="flex size-24 items-center justify-center rounded-2xl bg-primary shadow-2xl transition-transform duration-300 ease-out will-change-transform max-sm:group-active:scale-90 sm:size-20">
+              <Icon className="size-10 text-primary-foreground sm:size-9" stroke={1.5} />
+            </div>
+            <div className="flex gap-1.5">
+              {[0, 1, 2].map((i) => (
+                <div
+                  key={i}
+                  className="size-1.5 rounded-full bg-foreground/15"
+                />
+              ))}
+            </div>
+            <span className="text-xs font-medium text-muted-foreground/60">
+              {title}
+            </span>
           </div>
-          <div className="flex gap-1.5">
-            {[0, 1, 2].map((i) => (
-              <div
-                key={i}
-                className="size-1.5 rounded-full bg-foreground/15"
-              />
-            ))}
-          </div>
-          <span className="text-xs font-medium text-muted-foreground/60">
-            {title}
-          </span>
         </div>
-      </div>
+      </AspectRatio>
     </div>
   );
 }

@@ -17,6 +17,7 @@ import {
   IconSearch,
 } from "@tabler/icons-react";
 import { Link } from "@/components/ui/link";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 const TRUST_ITEMS = [
   { icon: IconShieldCheck, text: "No accounts needed" },
@@ -265,11 +266,13 @@ export function Hero() {
               </div>
             </div>
 
-            <img
-              src="https://placehold.co/1200x700/f8fafc/94a3b8?text=Your+App+Screenshot+Here"
-              alt="QuickPrompt app preview"
-              className="w-full object-cover"
-            />
+            <AspectRatio ratio={16 / 10}>
+              <img
+                src="https://placehold.co/1200x700/f8fafc/94a3b8?text=Your+App+Screenshot+Here"
+                alt="QuickPrompt app preview"
+                className="h-full w-full object-cover"
+              />
+            </AspectRatio>
           </div>
         </div>
       </div>
