@@ -1,0 +1,92 @@
+{
+  "releases": [
+    {
+      "version": "1.5.0",
+      "date": "June 05, 2026",
+      "type": "stable",
+      "changes": [
+        "Added spotlight search with Cmd+K / Ctrl+K",
+        "Added global shortcut Ctrl+Alt+P for quick search",
+        "Added import/export with JSON, CSV, and Markdown support",
+        "Added drag-and-drop import with format auto-detection",
+        "Added preview before import with validation",
+        "Added system tray with context menu",
+        "Added always-on-top toggle",
+        "Added configurable close behavior (minimize to tray or quit)",
+        "Added auto-copy on click setting",
+        "Added onboarding flow for new users",
+        "Improved tag manager with search and color coding",
+        "Improved responsive layout with mini window mode",
+        "Fixed Windows shell args escaping"
+      ]
+    },
+    {
+      "version": "1.4.0",
+      "date": "May 30, 2026",
+      "type": "stable",
+      "changes": [
+        "Added 11 hand-tuned themes (Light, Dark, Forest, Ocean, Sunset, Midnight, Dracula, Tokyo Night, Cyberpunk, Nord, Lavender)",
+        "Added theme picker with visual previews in Settings",
+        "Added grid and list view modes with toggle",
+        "Added pagination with configurable page size",
+        "Added favorites system with star toggle",
+        "Added keyboard shortcut / to focus search",
+        "Added escape key to clear search",
+        "Added toast notifications for all actions"
+      ]
+    },
+    {
+      "version": "1.3.0",
+      "date": "May 24, 2026",
+      "type": "stable",
+      "changes": [
+        "Added prompt editing with pre-filled dialog",
+        "Added tag creation inline from prompt dialog",
+        "Added color-coded tag badges",
+        "Added relative timestamps (just now, Xm ago, Xh ago)",
+        "Added sticky-note style cards in mini window",
+        "Added decorative tape effect on mini cards",
+        "Improved card hover animations"
+      ]
+    },
+    {
+      "version": "1.2.0",
+      "date": "May 23, 2026",
+      "type": "stable",
+      "changes": [
+        "Added auto-update system with electron-updater",
+        "Added update notification in Settings",
+        "Added check for updates button",
+        "Added differential downloads for smaller updates",
+        "Added native OS notifications for updates",
+        "Improved settings page with sections"
+      ]
+    },
+    {
+      "version": "1.1.0",
+      "date": "May 23, 2026",
+      "type": "stable",
+      "changes": [
+        "Added floating action button for quick prompt creation",
+        "Added full-text search across prompts and tags",
+        "Added prompt cards with copy, edit, and delete",
+        "Added compact dialog for mini window mode",
+        "Added sidebar navigation with tooltips",
+        "Added responsive sidebar auto-hide on resize"
+      ]
+    },
+    {
+      "version": "1.0.0",
+      "date": "May 22, 2026",
+      "type": "stable",
+      "changes": [
+        "Initial release",
+        "Prompt management with create, read, delete",
+        "SQLite database backend",
+        "Light and Dark mode",
+        "System tray integration",
+        "Keyboard-first navigation"
+      ]
+    }
+  ]
+}
