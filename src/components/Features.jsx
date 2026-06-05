@@ -95,6 +95,13 @@ const FEATURES = [
 
 const FAN_ANGLES = [-6, 0, 6];
 
+function getCardFeature(cardIndex, activeIndex) {
+  const len = FEATURES.length;
+  if (cardIndex === 0) return FEATURES[(activeIndex - 1 + len) % len];
+  if (cardIndex === 1) return FEATURES[activeIndex];
+  return FEATURES[(activeIndex + 1) % len];
+}
+
 export function Features() {
   const [active, setActive] = useState(0);
   const containerRef = useRef(null);
@@ -198,7 +205,7 @@ export function Features() {
             scrollTrigger: {
               trigger: ".features-header",
               start: "top 85%",
-              toggleActions: "play none none none",
+              toggleActions: "play none none reverse",
             },
           });
 
@@ -210,7 +217,7 @@ export function Features() {
             scrollTrigger: {
               trigger: ".feature-tabs",
               start: "top 88%",
-              toggleActions: "play none none none",
+              toggleActions: "play none none reverse",
             },
           });
 
@@ -222,7 +229,7 @@ export function Features() {
             scrollTrigger: {
               trigger: ".feature-showcase",
               start: "top 85%",
-              toggleActions: "play none none none",
+              toggleActions: "play none none reverse",
             },
           });
         }
@@ -310,32 +317,22 @@ export function Features() {
           </div>
 
           <div className="relative hidden h-[640px] w-full max-w-4xl sm:block">
-            <div
-              ref={(el) => (cardsRef.current[0] = el)}
-              className="absolute left-0 top-8 cursor-pointer max-sm:active:scale-95"
-              style={{ transformOrigin: "bottom center" }}
-              onClick={() => focusCard(0)}
-            >
-              <FeatureCard icon={current.icon} title={current.title} />
-            </div>
-
-            <div
-              ref={(el) => (cardsRef.current[1] = el)}
-              className="absolute left-1/2 top-0 z-10 cursor-pointer max-sm:active:scale-95"
-              style={{ transformOrigin: "bottom center" }}
-              onClick={() => focusCard(1)}
-            >
-              <FeatureCard icon={current.icon} title={current.title} />
-            </div>
-
-            <div
-              ref={(el) => (cardsRef.current[2] = el)}
-              className="absolute right-0 top-8 cursor-pointer max-sm:active:scale-95"
-              style={{ transformOrigin: "bottom center" }}
-              onClick={() => focusCard(2)}
-            >
-              <FeatureCard icon={current.icon} title={current.title} />
-            </div>
+            {[0, 1, 2].map((cardIdx) => {
+              const feat = getCardFeature(cardIdx, active);
+              return (
+                <div
+                  key={cardIdx}
+                  ref={(el) => (cardsRef.current[cardIdx] = el)}
+                  className={`absolute cursor-pointer max-sm:active:scale-95 ${
+                    cardIdx === 0 ? "left-0 top-8" : cardIdx === 1 ? "left-1/2 top-0 z-10" : "right-0 top-8"
+                  }`}
+                  style={{ transformOrigin: "bottom center" }}
+                  onClick={() => focusCard(cardIdx)}
+                >
+                  <FeatureCard icon={feat.icon} title={feat.title} />
+                </div>
+              );
+            })}
           </div>
         </div>
 
