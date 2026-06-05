@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import {
@@ -9,7 +9,7 @@ import {
   IconTag,
   IconExternalLink,
 } from "@tabler/icons-react";
-import { Link } from "@/components/ui/link";
+import { useLatestRelease } from "@/hooks/use-latest-release";
 
 const WINDOWS_LOGO =
   "https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/windows/default.svg";
@@ -22,8 +22,7 @@ const PLATFORMS = [
   {
     name: "Windows",
     logo: WINDOWS_LOGO,
-    href: "https://github.com/bilals2008/QuickPrompt/releases/latest",
-    architectures: ["x64", "ARM64"],
+    architectures: ["x64"],
     recommended: true,
   },
   {
@@ -45,20 +44,24 @@ const TRUST_ITEMS = [
   { icon: IconBrandGithub, text: "100% open source" },
 ];
 
+function formatSize(bytes) {
+  if (!bytes) return "";
+  const mb = bytes / (1024 * 1024);
+  return `${mb.toFixed(1)} MB`;
+}
+
+function formatDate(iso) {
+  if (!iso) return "";
+  return new Date(iso).toLocaleDateString(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
+
 export function Download() {
   const containerRef = useRef(null);
-  const [latestVersion, setLatestVersion] = useState(null);
-
-  useEffect(() => {
-    fetch(
-      "https://api.github.com/repos/bilals2008/QuickPrompt/releases/latest"
-    )
-      .then((r) => (r.ok ? r.json() : null))
-      .then((data) => {
-        if (data?.tag_name) setLatestVersion(data.tag_name);
-      })
-      .catch(() => {});
-  }, []);
+  const { version, windows, mac, releaseUrl, publishedAt, loading } = useLatestRelease();
 
   useGSAP(
     () => {
@@ -174,6 +177,12 @@ export function Download() {
     });
   }, { scope: containerRef });
 
+  const getDownloadUrl = (platform) => {
+    if (platform === "Windows") return windows;
+    if (platform === "macOS") return mac;
+    return null;
+  };
+
   return (
     <section
       ref={containerRef}
@@ -207,34 +216,30 @@ export function Download() {
             version — no account required.
           </p>
 
-          {latestVersion && (
-            <div className="dl-subtitle mt-4 inline-flex items-center gap-1.5 rounded-lg border border-border/40 bg-card/30 px-3 py-1.5 text-xs text-muted-foreground backdrop-blur-sm">
+          <div className="dl-subtitle mt-4 flex flex-wrap items-center justify-center gap-3">
+            <div className="inline-flex items-center gap-1.5 rounded-lg border border-border/40 bg-card/30 px-3 py-1.5 text-xs text-muted-foreground backdrop-blur-sm">
               <IconTag className="size-3.5 text-primary/70" stroke={2} />
               <span>
-                Latest release:{" "}
-                <a
-                  href="https://github.com/bilals2008/QuickPrompt/releases/latest"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-medium text-foreground underline underline-offset-2 decoration-border hover:decoration-primary transition-colors"
-                >
-                  {latestVersion}
-                </a>
+                Latest:{" "}
+                <span className="font-medium text-foreground">v{version}</span>
               </span>
             </div>
-          )}
+            {publishedAt && (
+              <div className="inline-flex items-center gap-1.5 rounded-lg border border-border/40 bg-card/30 px-3 py-1.5 text-xs text-muted-foreground backdrop-blur-sm">
+                <span>Released {formatDate(publishedAt)}</span>
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="dl-grid mt-14 grid gap-5 sm:grid-cols-3">
           {PLATFORMS.map((p) => {
-            const Tag = p.comingSoon ? "div" : Link;
-            const linkProps = p.comingSoon
-              ? {}
-              : { href: p.href, target: "_blank", rel: "noopener noreferrer" };
+            const downloadUrl = getDownloadUrl(p.name);
+            const isReady = !p.comingSoon && downloadUrl;
+
             return (
-              <Tag
+              <div
                 key={p.name}
-                {...linkProps}
                 className={`dl-card group relative flex flex-col items-center rounded-2xl border border-border bg-card p-8 text-center transition-all duration-300 will-change-transform ${
                   p.comingSoon
                     ? "opacity-60"
@@ -320,10 +325,20 @@ export function Download() {
                 </div>
 
                 <div className="relative mt-6 w-full">
-                  {!p.comingSoon && (
-                    <div className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-2.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all duration-300 group-hover:shadow-xl group-hover:shadow-primary/30">
+                  {isReady && (
+                    <a
+                      href={downloadUrl}
+                      download
+                      className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-2.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all duration-300 hover:shadow-xl hover:shadow-primary/30 hover:brightness-110 active:scale-[0.97]"
+                    >
                       <IconDownload className="size-4" stroke={2} />
                       Download for {p.name}
+                    </a>
+                  )}
+                  {!isReady && !p.comingSoon && (
+                    <div className="flex w-full items-center justify-center gap-2 rounded-xl border border-border/60 bg-card/50 py-2.5 text-sm font-medium text-muted-foreground">
+                      <IconDownload className="size-4" stroke={2} />
+                      {loading ? "Loading..." : "Not available yet"}
                     </div>
                   )}
                   {p.comingSoon && (
@@ -333,21 +348,21 @@ export function Download() {
                     </div>
                   )}
                 </div>
-              </Tag>
+              </div>
             );
           })}
         </div>
 
         <div className="dl-trust mt-5">
-          <Link
-            href="https://github.com/bilals2008/QuickPrompt/releases"
+          <a
+            href={releaseUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 rounded-lg border border-border/40 bg-card/30 px-4 py-2 text-sm text-muted-foreground transition-all duration-300 hover:border-border hover:bg-card/60 hover:text-foreground"
           >
             <IconExternalLink className="size-3.5" stroke={2} />
             View all releases &amp; changelog
-          </Link>
+          </a>
         </div>
 
         <div className="dl-trust mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
