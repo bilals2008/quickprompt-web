@@ -14,8 +14,8 @@ import { useTheme } from "@/hooks/useTheme";
 import { useLatestRelease } from "@/hooks/use-latest-release";
 
 const LINKS = [
-  { label: "Features", href: "/#features" },
-  { label: "Download", href: "/#download" },
+  { label: "Features", href: "#features" },
+  { label: "Download", href: "#download" },
   { label: "Changelog", href: "/changelog" },
 ];
 
@@ -77,15 +77,25 @@ export function Navbar() {
 
         {/* Desktop Nav — pill bar */}
         <div className="hidden items-center gap-0.5 rounded-full border border-border/50 bg-card/50 p-1 shadow-[0_2px_24px_rgba(0,0,0,0.06)] backdrop-blur-xl transition-all duration-300 md:flex">
-          {LINKS.map((l) => (
-            <Link
-              key={l.href}
-              to={l.href}
-              className="relative rounded-full px-4 py-2 text-[13px] font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
-            >
-              {l.label}
-            </Link>
-          ))}
+          {LINKS.map((l) =>
+            l.href.startsWith("#") ? (
+              <a
+                key={l.href}
+                href={l.href}
+                className="relative rounded-full px-4 py-2 text-[13px] font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
+              >
+                {l.label}
+              </a>
+            ) : (
+              <Link
+                key={l.href}
+                to={l.href}
+                className="relative rounded-full px-4 py-2 text-[13px] font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
+              >
+                {l.label}
+              </Link>
+            )
+          )}
           <div className="mx-1 h-4 w-px bg-border/60" />
           <a
             href="https://github.com/bilals2008/QuickPrompt"
@@ -120,10 +130,10 @@ export function Navbar() {
             size="sm"
             className="hidden rounded-full px-4 py-2 text-[13px] shadow-[0_0_20px_var(--color-primary)/0.12] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_28px_var(--color-primary)/0.25] hover:brightness-110 active:scale-95 active:translate-y-0 sm:inline-flex"
           >
-            <Link to="/#download">
+            <a href="#download">
               <IconDownload className="size-3.5" stroke={2.5} />
               Download
-            </Link>
+            </a>
           </Button>
 
           {/* Mobile Hamburger */}
@@ -154,16 +164,27 @@ export function Navbar() {
       >
         <div className="bg-background/95 px-4 py-4 backdrop-blur-xl">
           <div className="rounded-2xl border border-border/40 bg-card/60 p-2 shadow-lg">
-            {LINKS.map((l) => (
-              <Link
-                key={l.href}
-                to={l.href}
-                onClick={() => setOpen(false)}
-                className="flex items-center justify-between rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground transition-all duration-200 hover:bg-accent hover:text-foreground active:scale-[0.98]"
-              >
-                {l.label}
-              </Link>
-            ))}
+            {LINKS.map((l) =>
+              l.href.startsWith("#") ? (
+                <a
+                  key={l.href}
+                  href={l.href}
+                  onClick={() => setOpen(false)}
+                  className="flex items-center justify-between rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground transition-all duration-200 hover:bg-accent hover:text-foreground active:scale-[0.98]"
+                >
+                  {l.label}
+                </a>
+              ) : (
+                <Link
+                  key={l.href}
+                  to={l.href}
+                  onClick={() => setOpen(false)}
+                  className="flex items-center justify-between rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground transition-all duration-200 hover:bg-accent hover:text-foreground active:scale-[0.98]"
+                >
+                  {l.label}
+                </Link>
+              )
+            )}
             <a
               href="https://github.com/bilals2008/QuickPrompt"
               target="_blank"
@@ -175,10 +196,10 @@ export function Navbar() {
             </a>
             <div className="mt-2 border-t border-border/50 pt-2">
               <Button asChild size="sm" className="h-10 w-full rounded-xl transition-all duration-200 hover:brightness-110 active:scale-[0.98]">
-                <Link to="/#download" onClick={() => setOpen(false)}>
+                <a href="#download" onClick={() => setOpen(false)}>
                   <IconDownload className="size-3.5" stroke={2.5} />
                   Download
-                </Link>
+                </a>
               </Button>
             </div>
           </div>
