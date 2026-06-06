@@ -1,3 +1,4 @@
+// File: src/components/Navbar.jsx
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -14,6 +15,7 @@ import { useLatestRelease } from "@/hooks/use-latest-release";
 
 const LINKS = [
   { label: "Features", href: "/#features" },
+  { label: "Download", href: "/#download" },
   { label: "Changelog", href: "/changelog" },
 ];
 

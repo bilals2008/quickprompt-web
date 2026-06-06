@@ -1,188 +1,119 @@
-import { useRef, useState } from "react";
+// File: src/components/Features.jsx
+import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
+import { motion } from "framer-motion";
 import {
-  IconBolt,
-  IconCheck,
-  IconStar,
+  IconFolder,
+  IconCopy,
+  IconLayoutGrid,
   IconSearch,
   IconPalette,
-  IconKeyboard,
-  IconFolder,
-  IconRocket,
+  IconBolt,
+  IconCheck,
+  IconDownload,
 } from "@tabler/icons-react";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
-
-function FeatureCard({ icon: Icon, title }) {
-  return (
-    <div className="group w-full overflow-hidden rounded-2xl border border-border/50 bg-card shadow-2xl shadow-black/15 backdrop-blur-sm sm:w-[400px]">
-      <div className="flex items-center gap-2 border-b border-border/40 bg-card/60 px-4 py-2.5">
-        <div className="flex gap-1.5">
-          <div className="size-2.5 rounded-full bg-red-400/80" />
-          <div className="size-2.5 rounded-full bg-yellow-400/80" />
-          <div className="size-2.5 rounded-full bg-green-400/80" />
-        </div>
-        <span className="ml-1 text-[11px] font-medium text-muted-foreground">
-          quickprompt
-        </span>
-      </div>
-      <AspectRatio ratio={10 / 14}>
-        <div className="relative flex h-full items-center justify-center overflow-hidden">
-          <div className="relative flex flex-col items-center gap-5">
-            <div className="flex size-24 items-center justify-center rounded-2xl bg-primary shadow-2xl transition-transform duration-300 ease-out will-change-transform max-sm:group-active:scale-90 sm:size-20">
-              <Icon className="size-10 text-primary-foreground sm:size-9" stroke={1.5} />
-            </div>
-            <div className="flex gap-1.5">
-              {[0, 1, 2].map((i) => (
-                <div
-                  key={i}
-                  className="size-1.5 rounded-full bg-foreground/15"
-                />
-              ))}
-            </div>
-            <span className="text-xs font-medium text-muted-foreground/60">
-              {title}
-            </span>
-          </div>
-        </div>
-      </AspectRatio>
-    </div>
-  );
-}
 
 const FEATURES = [
   {
-    icon: IconBolt,
-    title: "Instant Save",
-    description: "Floating action button to save prompts in one click.",
+    icon: IconFolder,
+    pill: "Workspaces",
+    title: "Organize prompts into folders",
+    description:
+      "Group prompts by project, client, or topic. Nest folders, drag to reorganize, and keep your library structured without breaking workflows.",
+    screenshot: "/screenshots/workspace.avif",
+    bullets: [
+      "Nested folder hierarchy",
+      "Drag & drop reordering",
+      "Project-based grouping",
+    ],
   },
   {
-    icon: IconCheck,
-    title: "One-Click Copy",
-    description: "Copy any prompt to your clipboard instantly.",
+    icon: IconCopy,
+    pill: "Copy Actions",
+    title: "One-click copy to clipboard",
+    description:
+      "Copy any prompt to your clipboard with a single click. A clean notification toast confirms every successful action instantly.",
+    screenshot: "/screenshots/instantcopy.avif",
+    bullets: [
+      "Instant copy shortcuts",
+      "Visual toast confirmations",
+      "Zero-latency execution",
+    ],
   },
   {
     icon: IconSearch,
-    title: "Full-Text Search",
-    description: "Find any prompt across all your tags and content.",
+    pill: "Instant Search",
+    title: "Find any prompt in milliseconds",
+    description:
+      "Full-text search scans across titles, tags, and prompt contents. Results update instantly as you type.",
+    screenshot: "/screenshots/instantSearch.avif",
+    bullets: [
+      "Real-time keystroke filtering",
+      "Deep search query matching",
+      "Tag and title search",
+    ],
+  },
+  {
+    icon: IconLayoutGrid,
+    pill: "Flexible Views",
+    title: "Switch layout views on the fly",
+    description:
+      "Choose between list and grid view layouts. Use a dense list for quick browsing or a visual grid for scanning prompts.",
+    screenshots: ["/screenshots/listview.avif", "/screenshots/gridview.avif"],
+    bullets: [
+      "Dense list layout",
+      "Visual grid showcase",
+      "Responsive card alignment",
+    ],
   },
   {
     icon: IconPalette,
-    title: "Themes",
-    description: "Light, Dark, Forest, Ocean — pick your style.",
+    pill: "Theming",
+    title: "Personalize your workspace themes",
+    description:
+      "Switch between light, dark, and custom accent colors to match your preferences and make QuickPrompt feel like home.",
+    screenshots: [
+      "/screenshots/theming-1.avif",
+      "/screenshots/theming-2.avif",
+      "/screenshots/theming-3.avif",
+    ],
+    bullets: [
+      "Light and dark mode themes",
+      "Accent color customization",
+      "Consistent UI styling",
+    ],
   },
   {
-    icon: IconKeyboard,
-    title: "Keyboard-First",
-    description: "Navigate everything without touching the mouse.",
+    icon: IconBolt,
+    pill: "Performance",
+    title: "Built for speed and offline reliability",
+    description:
+      "Powered by Electron and SQLite. Launches instantly, works completely offline, and never blocks your creative workflow.",
+    screenshot: "/screenshots/performance.webp",
+    bullets: [
+      "Fast SQLite database query",
+      "100% offline functionality",
+      "Zero loading delays",
+    ],
   },
   {
-    icon: IconStar,
-    title: "Favorites",
-    description: "Star your most-used prompts for quick access.",
-  },
-  {
-    icon: IconFolder,
-    title: "Smart Tags",
-    description: "Organize prompts with tags and autocomplete.",
-  },
-  {
-    icon: IconRocket,
-    title: "Blazing Fast",
-    description: "Electron + SQLite — launches instantly.",
+    icon: IconDownload,
+    pill: "Import & Export",
+    title: "Move your library between machines",
+    description:
+      "Back up your entire prompt library or merge it from another tool. Supports JSON, CSV, and Markdown with drag-and-drop import and one-click JSON export.",
+    screenshot: "/screenshots/ImportExport.avif",
+    bullets: [
+      "Drag-and-drop file import",
+      "JSON, CSV & Markdown support",
+      "Safe merge without overwriting",
+    ],
   },
 ];
 
-const FAN_ANGLES = [-6, 0, 6];
-
-function getCardFeature(cardIndex, activeIndex) {
-  const len = FEATURES.length;
-  if (cardIndex === 0) return FEATURES[(activeIndex - 1 + len) % len];
-  if (cardIndex === 1) return FEATURES[activeIndex];
-  return FEATURES[(activeIndex + 1) % len];
-}
-
 export function Features() {
-  const [active, setActive] = useState(0);
   const containerRef = useRef(null);
-  const cardsRef = useRef([]);
-  const focusedRef = useRef(null);
-  const animatingRef = useRef(false);
-
-  const current = FEATURES[active];
-
-  const focusCard = (idx) => {
-    if (animatingRef.current) return;
-    animatingRef.current = true;
-
-    const wasFocused = focusedRef.current === idx;
-    focusedRef.current = wasFocused ? null : idx;
-
-    cardsRef.current.forEach((card, i) => {
-      if (!card) return;
-      gsap.killTweensOf(card);
-      const isFocused = !wasFocused && i === idx;
-
-      gsap.to(card, {
-        xPercent: i === 1 ? -50 : 0,
-        zIndex: isFocused ? 30 : i === 1 ? 10 : 0,
-        y: isFocused ? -20 : 0,
-        scale: isFocused ? 1.05 : 1,
-        rotation: isFocused ? 0 : FAN_ANGLES[i],
-        opacity: isFocused ? 1 : wasFocused ? 1 : 0.5,
-        duration: 0.35,
-        ease: "power2.out",
-        onComplete: () => {
-          animatingRef.current = false;
-        },
-      });
-    });
-  };
-
-  const switchTab = (i) => {
-    if (i === active || animatingRef.current) return;
-    animatingRef.current = true;
-    focusedRef.current = null;
-
-    const cards = cardsRef.current.filter(Boolean);
-    cards.forEach((card) => gsap.killTweensOf(card));
-
-    const tl = gsap.timeline({
-      onComplete: () => {
-        animatingRef.current = false;
-      },
-    });
-
-    tl.to(cards, {
-      xPercent: (j) => (j === 1 ? -50 : 0),
-      opacity: 0,
-      y: 30,
-      scale: 0.92,
-      rotation: (j) => FAN_ANGLES[j] * 1.5,
-      duration: 0.3,
-      ease: "power2.in",
-      stagger: 0.03,
-    });
-
-    tl.call(() => setActive(i));
-
-    tl.set(cards, {
-      y: 40,
-      scale: 0.92,
-      rotation: (j) => FAN_ANGLES[j],
-    });
-
-    tl.to(cards, {
-      xPercent: (j) => (j === 1 ? -50 : 0),
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      rotation: (j) => FAN_ANGLES[j],
-      duration: 0.5,
-      ease: "power3.out",
-      stagger: 0.06,
-    });
-  };
 
   useGSAP(
     () => {
@@ -196,40 +127,39 @@ export function Features() {
         (context) => {
           const { reduceMotion } = context.conditions;
 
-          gsap.from(".features-header > *", {
+          gsap.from(".features-eyebrow", {
             autoAlpha: 0,
-            y: 24,
-            stagger: 0.1,
-            duration: reduceMotion ? 0 : 0.6,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: ".features-header",
-              start: "top 85%",
-              toggleActions: "play none none reverse",
-            },
-          });
-
-          gsap.from(".feature-tabs", {
-            autoAlpha: 0,
-            y: 20,
+            y: 16,
             duration: reduceMotion ? 0 : 0.5,
             ease: "power3.out",
             scrollTrigger: {
-              trigger: ".feature-tabs",
+              trigger: ".features-eyebrow",
               start: "top 88%",
-              toggleActions: "play none none reverse",
+              toggleActions: "play none none none",
             },
           });
 
-          gsap.from(".feature-showcase", {
+          gsap.from(".features-title", {
             autoAlpha: 0,
-            y: 50,
-            duration: reduceMotion ? 0 : 0.8,
+            y: 24,
+            duration: reduceMotion ? 0 : 0.7,
             ease: "power3.out",
             scrollTrigger: {
-              trigger: ".feature-showcase",
+              trigger: ".features-title",
               start: "top 85%",
-              toggleActions: "play none none reverse",
+              toggleActions: "play none none none",
+            },
+          });
+
+          gsap.from(".features-subtitle", {
+            autoAlpha: 0,
+            y: 16,
+            duration: reduceMotion ? 0 : 0.6,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: ".features-subtitle",
+              start: "top 85%",
+              toggleActions: "play none none none",
             },
           });
         }
@@ -240,28 +170,14 @@ export function Features() {
     { scope: containerRef }
   );
 
-  useGSAP(() => {
-    cardsRef.current.forEach((card, i) => {
-      if (!card) return;
-      gsap.set(card, {
-        xPercent: i === 1 ? -50 : 0,
-        y: 0,
-        scale: 1,
-        rotation: FAN_ANGLES[i],
-        opacity: 1,
-        zIndex: i === 1 ? 10 : 0,
-      });
-    });
-  }, { scope: containerRef });
-
   return (
     <section
       ref={containerRef}
       id="features"
-      className="relative overflow-hidden py-28"
+      className="relative overflow-hidden py-20 sm:py-28 scroll-mt-20"
     >
+      {/* Background radial glow */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_0%,var(--color-primary)/[0.04],transparent)]" />
         <div
           className="absolute inset-0 opacity-[0.02] dark:opacity-[0.04]"
           style={{
@@ -273,90 +189,204 @@ export function Features() {
       </div>
 
       <div className="relative mx-auto max-w-6xl px-6">
-        <div className="features-header mx-auto max-w-2xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-widest text-primary">
+        {/* Section Header */}
+        <div className="mx-auto max-w-2xl text-center mb-20 md:mb-28">
+          <div className="features-eyebrow mb-5 inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/40 px-3.5 py-1.5 text-xs font-medium text-muted-foreground backdrop-blur-sm">
+            <IconBolt className="size-3.5 text-primary" stroke={2.5} />
             Features
-          </p>
-          <h2 className="mt-4 text-balance text-2xl font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl lg:text-5xl">
-            Everything you need,
-            <br />
-            <span className="bg-gradient-to-r from-primary via-primary/70 to-primary/40 bg-clip-text text-transparent">
-              nothing you don&apos;t.
-            </span>
+          </div>
+
+          <h2 className="features-title text-balance text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
+            Built for the way you work.
           </h2>
-          <p className="mx-auto mt-5 max-w-lg text-base leading-relaxed text-muted-foreground">
-            Eight focused features that make managing prompts actually
-            enjoyable.
+
+          <p className="features-subtitle mx-auto mt-4 max-w-md text-sm leading-relaxed text-muted-foreground sm:text-base">
+            Seven focused capabilities designed to make your prompt management
+            fast, intuitive, and zero-bloat.
           </p>
         </div>
 
-        <div className="feature-tabs mx-auto mt-14 flex max-w-3xl flex-wrap items-center justify-center gap-2">
-          {FEATURES.map((f, i) => {
-            const Icon = f.icon;
-            const isActive = i === active;
+        {/* Feature Rows */}
+        <div className="flex flex-col gap-28 md:gap-36">
+          {FEATURES.map((feature, i) => {
+            const isEven = i % 2 === 0;
+            const Icon = feature.icon;
+
             return (
-              <button
-                key={f.title}
-                onClick={() => switchTab(i)}
-                className={`flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-medium transition-all duration-300 active:scale-95 ${
-                  isActive
-                    ? "bg-primary text-primary-foreground shadow-lg"
-                    : "bg-card/50 text-muted-foreground hover:scale-105 hover:bg-card hover:text-foreground"
-                }`}
+              <div
+                key={feature.title}
+                className="group grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-center"
               >
-                <Icon className="size-4" stroke={2} />
-                <span className="hidden sm:inline">{f.title}</span>
-              </button>
+                {/* Text column with entrance animation */}
+                <motion.div
+                  initial={{ opacity: 0, x: isEven ? -25 : 25 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.6, ease: "easeOut" }}
+                  className={`md:col-span-5 flex flex-col justify-center ${
+                    isEven ? "md:order-1" : "md:order-2"
+                  }`}
+                >
+                  {/* Step Number & Category Pill */}
+                  <div className="flex items-center gap-3 mb-5">
+                    <div className="flex size-9 items-center justify-center rounded-full border border-primary/30 font-mono text-sm font-semibold text-primary transition-all duration-300 group-hover:border-primary group-hover:bg-primary/5">
+                      {String(i + 1).padStart(2, "0")}
+                    </div>
+                    <div className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted/30 px-3 py-1 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                      <Icon className="size-3.5 text-primary/80" stroke={2} />
+                      <span>{feature.pill}</span>
+                    </div>
+                  </div>
+
+                  {/* Title Heading in Serif Italic */}
+                  <h3 className="text-balance text-2xl font-serif italic tracking-tight text-foreground sm:text-3xl leading-tight">
+                    {feature.title}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="mt-4 text-sm sm:text-base leading-relaxed text-muted-foreground">
+                    {feature.description}
+                  </p>
+
+                  {/* Checkmark Bullets with micro-hover effect */}
+                  <ul className="mt-6 flex flex-col gap-3">
+                    {feature.bullets.map((bullet) => (
+                      <li
+                        key={bullet}
+                        className="flex items-start gap-2.5 text-sm text-muted-foreground transition-all duration-300 hover:text-foreground hover:translate-x-1 group/bullet"
+                      >
+                        <div className="flex size-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary mt-0.5 transition-transform duration-300 group-hover/bullet:scale-110">
+                          <IconCheck className="size-3" stroke={3} />
+                        </div>
+                        <span>{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+
+                {/* Mockup Column with slide-in & scale animation */}
+                <motion.div
+                  initial={{ opacity: 0, x: isEven ? 25 : -25, scale: 0.98 }}
+                  whileInView={{ opacity: 1, x: 0, scale: 1 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                  className={`md:col-span-7 w-full relative ${
+                    isEven ? "md:order-2" : "md:order-1"
+                  }`}
+                >
+                  {/* Ambient glow behind the mockup — expands & intensifies on hover */}
+                  <div
+                    className="absolute -inset-4 rounded-3xl pointer-events-none blur-3xl"
+                    style={{
+                      background: `radial-gradient(ellipse at 50% 60%, hsl(var(--primary) / 0.12), transparent 70%)`,
+                      transition: "opacity 0.7s cubic-bezier(0.25,1,0.5,1), transform 0.7s cubic-bezier(0.25,1,0.5,1)",
+                    }}
+                  />
+                  <div
+                    className="absolute -inset-4 rounded-3xl pointer-events-none blur-3xl opacity-0 group-hover:opacity-100"
+                    style={{
+                      background: `radial-gradient(ellipse at 50% 60%, hsl(var(--primary) / 0.22), transparent 65%)`,
+                      transition: "opacity 0.6s cubic-bezier(0.25,1,0.5,1)",
+                    }}
+                  />
+
+                  {/* Mockup Card Container */}
+                  <div
+                    className="relative overflow-hidden rounded-2xl bg-background pt-1.5"
+                    style={{
+                      border: "1px solid hsl(var(--border) / 0.8)",
+                      boxShadow: "0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)",
+                      transition: "transform 0.65s cubic-bezier(0.25,1,0.5,1), box-shadow 0.65s cubic-bezier(0.25,1,0.5,1), border-color 0.65s cubic-bezier(0.25,1,0.5,1)",
+                    }}
+                    onMouseEnter={e => {
+                      e.currentTarget.style.transform = "translateY(-6px) scale(1.012)";
+                      e.currentTarget.style.boxShadow = "0 20px 48px rgba(0,0,0,0.10), 0 8px 20px hsl(var(--primary) / 0.08), 0 0 0 1.5px hsl(var(--primary) / 0.30)";
+                      e.currentTarget.style.borderColor = "hsl(var(--primary) / 0.35)";
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.transform = "translateY(0) scale(1)";
+                      e.currentTarget.style.boxShadow = "0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)";
+                      e.currentTarget.style.borderColor = "hsl(var(--border) / 0.8)";
+                    }}
+                  >
+                    {/* Window title bar */}
+                    <div className="flex items-center gap-1.5 border-b border-border/40 bg-muted/40 px-4 py-2">
+                      <div className="flex gap-1.5">
+                        <div className="size-2 rounded-full bg-[#ff5f56]" />
+                        <div className="size-2 rounded-full bg-[#ffbd2e]" />
+                        <div className="size-2 rounded-full bg-[#27c93f]" />
+                      </div>
+                      <div className="mx-auto font-sans text-[11px] font-medium text-muted-foreground/50">
+                        {feature.pill} Preview
+                      </div>
+                    </div>
+
+                    {/* App viewport */}
+                    <div className="relative h-[220px] sm:h-[320px] w-full overflow-hidden bg-muted/5 flex items-center justify-center p-3">
+                      {/* Shine sweep overlay */}
+                      <div
+                        className="absolute inset-0 pointer-events-none z-10 opacity-0 group-hover:opacity-100"
+                        style={{
+                          background: "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.07) 50%, transparent 60%)",
+                          backgroundSize: "200% 100%",
+                          backgroundPosition: "200% 0",
+                          transition: "opacity 0.4s ease, background-position 0.75s cubic-bezier(0.25,1,0.5,1)",
+                        }}
+                        onMouseEnter={e => {
+                          e.currentTarget.style.backgroundPosition = "-200% 0";
+                        }}
+                        onMouseLeave={e => {
+                          e.currentTarget.style.backgroundPosition = "200% 0";
+                        }}
+                      />
+                      {feature.screenshots ? (
+                        <div className="flex gap-2 h-full w-full items-center justify-center">
+                          {feature.screenshots.map((src, idx) => (
+                            <img
+                              key={idx}
+                              src={src}
+                              alt={`${feature.title} preview ${idx + 1}`}
+                              className="max-h-full object-contain rounded-lg"
+                              style={{
+                                transition: "transform 0.75s cubic-bezier(0.25,1,0.5,1), filter 0.75s cubic-bezier(0.25,1,0.5,1)",
+                              }}
+                              onMouseEnter={e => {
+                                e.currentTarget.style.transform = "scale(1.06) translateY(-3px)";
+                                e.currentTarget.style.filter = "brightness(1.04) contrast(1.01)";
+                              }}
+                              onMouseLeave={e => {
+                                e.currentTarget.style.transform = "scale(1) translateY(0)";
+                                e.currentTarget.style.filter = "brightness(1) contrast(1)";
+                              }}
+                              loading="lazy"
+                            />
+                          ))}
+                        </div>
+                      ) : feature.screenshot ? (
+                        <img
+                          src={feature.screenshot}
+                          alt={`${feature.title} preview`}
+                          className="max-w-full max-h-full object-contain"
+                          style={{
+                            transition: "transform 0.75s cubic-bezier(0.25,1,0.5,1), filter 0.75s cubic-bezier(0.25,1,0.5,1)",
+                          }}
+                          onMouseEnter={e => {
+                            e.currentTarget.style.transform = "scale(1.06) translateY(-3px)";
+                            e.currentTarget.style.filter = "brightness(1.04) contrast(1.01)";
+                          }}
+                          onMouseLeave={e => {
+                            e.currentTarget.style.transform = "scale(1) translateY(0)";
+                            e.currentTarget.style.filter = "brightness(1) contrast(1)";
+                          }}
+                          loading="lazy"
+                        />
+                      ) : null}
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
             );
           })}
-        </div>
-
-        <div className="feature-showcase mx-auto mt-16 flex items-center justify-center">
-          <div className="w-full px-4 sm:hidden">
-            <FeatureCard icon={current.icon} title={current.title} />
-          </div>
-
-          <div className="relative hidden h-[640px] w-full max-w-4xl sm:block">
-            {[0, 1, 2].map((cardIdx) => {
-              const feat = getCardFeature(cardIdx, active);
-              return (
-                <div
-                  key={cardIdx}
-                  ref={(el) => (cardsRef.current[cardIdx] = el)}
-                  className={`absolute cursor-pointer max-sm:active:scale-95 ${
-                    cardIdx === 0 ? "left-0 top-8" : cardIdx === 1 ? "left-1/2 top-0 z-10" : "right-0 top-8"
-                  }`}
-                  style={{ transformOrigin: "bottom center" }}
-                  onClick={() => focusCard(cardIdx)}
-                >
-                  <FeatureCard icon={feat.icon} title={feat.title} />
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className="feature-showcase mx-auto mt-8 flex flex-col items-center gap-3">
-          <div className="inline-flex size-10 items-center justify-center rounded-xl bg-primary shadow-lg">
-            <current.icon className="size-5 text-primary-foreground" stroke={2} />
-          </div>
-          <p className="max-w-md text-center text-sm leading-relaxed text-muted-foreground">
-            {current.description}
-          </p>
-          <div className="mt-1 flex gap-2">
-            {FEATURES.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => switchTab(i)}
-                className={`h-1.5 rounded-full transition-all duration-500 ${
-                  i === active
-                    ? "w-6 bg-primary"
-                    : "w-1.5 bg-foreground/20 hover:bg-foreground/30"
-                }`}
-                aria-label={`Switch to ${FEATURES[i].title}`}
-              />
-            ))}
-          </div>
         </div>
       </div>
     </section>

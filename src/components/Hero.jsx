@@ -1,11 +1,10 @@
+// File: src/components/Hero.jsx
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import {
-  IconBolt,
   IconDownload,
   IconBrandGithub,
-  IconSparkles,
   IconArrowRight,
   IconShieldCheck,
   IconWifi,
@@ -17,7 +16,6 @@ import {
   IconSearch,
 } from "@tabler/icons-react";
 import { Link } from "@/components/ui/link";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 const TRUST_ITEMS = [
   { icon: IconShieldCheck, text: "No accounts needed" },
@@ -88,17 +86,6 @@ export function Hero() {
                 duration: reduceMotion ? 0 : 0.5,
               },
               "-=0.3"
-            )
-            .from(
-              ".hero-mockup",
-              {
-                autoAlpha: 0,
-                y: 60,
-                scale: 0.95,
-                duration: reduceMotion ? 0 : 1.2,
-                ease: "power2.out",
-              },
-              "-=0.6"
             )
             .from(
               ".hero-glow-1",
@@ -250,31 +237,6 @@ export function Hero() {
           ))}
         </div>
 
-        {/* App Mockup — replace src with your own screenshot */}
-        <div className="hero-mockup mx-auto mt-14 max-w-2xl">
-          <div className="group relative overflow-hidden rounded-2xl border border-border/50 bg-card/30 shadow-2xl shadow-black/10 backdrop-blur-sm transition-all duration-500 hover:shadow-3xl hover:shadow-primary/[0.06] dark:shadow-black/30">
-            {/* Title bar */}
-            <div className="flex items-center gap-2 border-b border-border/40 bg-card/50 px-4 py-3">
-              <div className="flex gap-1.5">
-                <div className="size-3 rounded-full bg-red-400/80" />
-                <div className="size-3 rounded-full bg-yellow-400/80" />
-                <div className="size-3 rounded-full bg-green-400/80" />
-              </div>
-              <div className="mx-auto flex items-center gap-2 rounded-lg bg-muted/50 px-3 py-1 text-xs text-muted-foreground">
-                <IconSparkles className="size-3" stroke={2} />
-                QuickPrompt
-              </div>
-            </div>
-
-            <AspectRatio ratio={16 / 10}>
-              <img
-                src="https://placehold.co/1200x700/f8fafc/94a3b8?text=Your+App+Screenshot+Here"
-                alt="QuickPrompt app preview"
-                className="h-full w-full object-cover"
-              />
-            </AspectRatio>
-          </div>
-        </div>
       </div>
     </section>
   );
