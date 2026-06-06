@@ -85,19 +85,6 @@ const FEATURES = [
     ],
   },
   {
-    icon: IconBolt,
-    pill: "Performance",
-    title: "Built for speed and offline reliability",
-    description:
-      "Powered by Electron and SQLite. Launches instantly, works completely offline, and never blocks your creative workflow.",
-    screenshot: "/screenshots/performance.webp",
-    bullets: [
-      "Fast SQLite database query",
-      "100% offline functionality",
-      "Zero loading delays",
-    ],
-  },
-  {
     icon: IconDownload,
     pill: "Import & Export",
     title: "Move your library between machines",
@@ -201,7 +188,7 @@ export function Features() {
           </h2>
 
           <p className="features-subtitle mx-auto mt-4 max-w-md text-sm leading-relaxed text-muted-foreground sm:text-base">
-            Seven focused capabilities designed to make your prompt management
+            Six focused capabilities designed to make your prompt management
             fast, intuitive, and zero-bloat.
           </p>
         </div>
