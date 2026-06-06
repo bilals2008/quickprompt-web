@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 const REPO = "bilals2008/QuickPrompt";
-const FALLBACK_VERSION = "1.5.0";
+const FALLBACK_VERSION = "1.6.1";
 
 export function useLatestRelease() {
   const [state, setState] = useState({
