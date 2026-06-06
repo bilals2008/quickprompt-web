@@ -377,6 +377,26 @@ export function Features() {
             );
           })}
         </div>
+
+        {/* More Features CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="mt-20 md:mt-28 text-center"
+        >
+          <div className="inline-flex items-center gap-3 rounded-full border border-border/40 bg-card/30 px-4 py-1.5 text-xs font-medium text-muted-foreground backdrop-blur-sm mb-5">
+            <span className="flex size-2 rounded-full bg-primary/60" />
+            And more
+          </div>
+          <h3 className="text-balance text-2xl font-serif italic tracking-tight text-foreground sm:text-3xl">
+            ...and&nbsp;much&nbsp;more
+          </h3>
+          <p className="mx-auto mt-3 max-w-sm text-sm text-muted-foreground">
+            And we&rsquo;re just getting started &mdash; more is on the way.
+          </p>
+        </motion.div>
       </div>
     </section>
   );
