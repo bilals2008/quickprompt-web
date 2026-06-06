@@ -286,14 +286,16 @@ export function Features() {
                       transition: "transform 0.65s cubic-bezier(0.25,1,0.5,1), box-shadow 0.65s cubic-bezier(0.25,1,0.5,1), border-color 0.65s cubic-bezier(0.25,1,0.5,1)",
                     }}
                     onMouseEnter={e => {
-                      e.currentTarget.style.transform = "translateY(-6px) scale(1.012)";
-                      e.currentTarget.style.boxShadow = "0 20px 48px rgba(0,0,0,0.10), 0 8px 20px hsl(var(--primary) / 0.08), 0 0 0 1.5px hsl(var(--primary) / 0.30)";
-                      e.currentTarget.style.borderColor = "hsl(var(--primary) / 0.35)";
+                      const el = e.currentTarget;
+                      el.style.transform = "translateY(-6px) scale(1.012)";
+                      el.style.boxShadow = "0 20px 48px rgba(0,0,0,0.10), 0 8px 20px hsl(var(--primary) / 0.08), 0 0 0 1.5px hsl(var(--primary) / 0.30)";
+                      el.style.borderColor = "hsl(var(--primary) / 0.35)";
                     }}
                     onMouseLeave={e => {
-                      e.currentTarget.style.transform = "translateY(0) scale(1)";
-                      e.currentTarget.style.boxShadow = "0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)";
-                      e.currentTarget.style.borderColor = "hsl(var(--border) / 0.8)";
+                      const el = e.currentTarget;
+                      el.style.transform = "translateY(0) scale(1)";
+                      el.style.boxShadow = "0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)";
+                      el.style.borderColor = "hsl(var(--border) / 0.8)";
                     }}
                   >
                     {/* Window title bar */}
@@ -310,25 +312,25 @@ export function Features() {
 
                     {/* App viewport */}
                     <div className="relative h-[220px] sm:h-[320px] w-full overflow-hidden bg-muted/5 flex items-center justify-center p-3">
-                      {/* Shine sweep overlay */}
+                      {/* Glow overlay on hover */}
                       <div
                         className="absolute inset-0 pointer-events-none z-10 opacity-0 group-hover:opacity-100"
                         style={{
-                          background: "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.07) 50%, transparent 60%)",
-                          backgroundSize: "200% 100%",
-                          backgroundPosition: "200% 0",
-                          transition: "opacity 0.4s ease, background-position 0.75s cubic-bezier(0.25,1,0.5,1)",
+                          background: "radial-gradient(ellipse at 50% 50%, hsl(var(--primary) / 0.15), transparent 60%)",
+                          transition: "opacity 0.5s ease",
                         }}
-                        onMouseEnter={e => {
-                          e.currentTarget.style.backgroundPosition = "-200% 0";
-                        }}
-                        onMouseLeave={e => {
-                          e.currentTarget.style.backgroundPosition = "200% 0";
+                      />
+                      {/* Gradient border ring on hover */}
+                      <div
+                        className="absolute inset-0 rounded-2xl pointer-events-none z-10 opacity-0 group-hover:opacity-100"
+                        style={{
+                          boxShadow: "inset 0 0 0 1.5px hsl(var(--primary) / 0.4)",
+                          transition: "opacity 0.4s ease",
                         }}
                       />
                       {feature.screenshots ? (
                         <div className="flex gap-2 h-full w-full items-center justify-center">
-                          {feature.screenshots.map((src, idx) => (
+                              {feature.screenshots.map((src, idx) => (
                             <img
                               key={idx}
                               src={src}
