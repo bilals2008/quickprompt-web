@@ -240,12 +240,27 @@ export function Download() {
             return (
               <div
                 key={p.name}
-                className={`dl-card group relative flex flex-col items-center rounded-2xl border border-border bg-card p-8 text-center transition-all duration-300 will-change-transform ${
+                className={`dl-card group relative flex flex-col items-center rounded-2xl border bg-card p-8 text-center transition-all duration-500 will-change-transform ${
                   p.comingSoon
-                    ? "opacity-60"
-                    : "hover:border-transparent"
+                    ? "border-dashed border-border/40 hover:border-border/60"
+                    : "border-border hover:border-transparent"
                 }`}
+                style={{
+                  boxShadow: p.recommended
+                    ? "0 0 0 1px hsl(var(--primary) / 0.15), 0 8px 24px hsl(var(--primary) / 0.06)"
+                    : "none",
+                }}
               >
+                {/* Subtle dot grid for coming-soon */}
+                {p.comingSoon && (
+                  <div className="pointer-events-none absolute inset-0 rounded-2xl opacity-[0.015]"
+                    style={{
+                      backgroundImage: `radial-gradient(circle, currentColor 1px, transparent 1px)`,
+                      backgroundSize: "16px 16px",
+                    }}
+                  />
+                )}
+
                 {!p.comingSoon && (
                   <div
                     className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
@@ -263,46 +278,67 @@ export function Download() {
                   />
                 )}
 
+                {/* Primary color border ring on hover for available cards */}
+                {!p.comingSoon && (
+                  <div className="absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none"
+                    style={{
+                      boxShadow: "inset 0 0 0 1.5px hsl(var(--primary) / 0.3)",
+                    }}
+                  />
+                )}
+
                 {p.recommended && (
-                  <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 rounded-full bg-primary px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-primary-foreground shadow-sm">
+                  <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 rounded-full bg-primary px-3 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-primary-foreground shadow-lg shadow-primary/20">
                     <IconSparkles className="size-2.5" stroke={2.5} />
                     Recommended
                   </div>
                 )}
 
                 {p.comingSoon && (
-                  <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 inline-flex items-center rounded-full border border-border/50 bg-card/80 px-2.5 py-0.5 text-[10px] font-medium text-muted-foreground backdrop-blur-sm">
+                  <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 inline-flex items-center rounded-full border border-border/40 bg-card/80 px-3 py-0.5 text-[10px] font-medium text-muted-foreground/80 backdrop-blur-sm">
                     Coming Soon
                   </div>
                 )}
 
                 <div className="relative grid size-20 place-items-center rounded-full">
-                  <div className="absolute inset-0 rounded-full opacity-20 blur-xl transition-opacity duration-500 group-hover:opacity-40"
+                  <div className="absolute inset-0 rounded-full opacity-20 blur-xl transition-all duration-500 group-hover:opacity-40"
                     style={{
-                      background: `var(--color-primary)`,
+                      background: p.comingSoon ? `var(--color-border)` : `var(--color-primary)`,
                     }}
                   />
                   <div className="absolute inset-0 rounded-full border transition-all duration-500"
                     style={{
-                      borderColor: `color-mix(in srgb, var(--color-primary) 25%, transparent)`,
+                      borderColor: p.comingSoon
+                        ? `color-mix(in srgb, var(--color-border) 30%, transparent)`
+                        : `color-mix(in srgb, var(--color-primary) 25%, transparent)`,
                     }}
                   />
-                  <div className="absolute -inset-2 rounded-full border border-dashed transition-all duration-500 group-hover:rotate-90"
+                  <div className={`absolute -inset-2 rounded-full border border-dashed transition-all duration-500 ${!p.comingSoon && 'group-hover:rotate-90'}`}
                     style={{
-                      borderColor: `color-mix(in srgb, var(--color-primary) 18%, transparent)`,
+                      borderColor: p.comingSoon
+                        ? `color-mix(in srgb, var(--color-border) 15%, transparent)`
+                        : `color-mix(in srgb, var(--color-primary) 18%, transparent)`,
                     }}
                   />
-                  <img src={p.logo} alt={p.name} className="relative z-10 size-9" />
+                  <img
+                    src={p.logo}
+                    alt={p.name}
+                    className={`relative z-10 size-9 transition-all duration-500 ${p.comingSoon ? 'opacity-50 grayscale' : ''}`}
+                  />
                 </div>
 
                 <div className="relative mt-6 flex flex-col items-center gap-3">
-                  <p className="text-lg font-semibold text-foreground">{p.name}</p>
+                  <p className={`text-lg font-semibold transition-all duration-300 ${p.comingSoon ? 'text-muted-foreground/80' : 'text-foreground'}`}>{p.name}</p>
 
                   <div className="flex flex-wrap justify-center gap-1.5">
                     {p.architectures.map((arch) => (
                       <span
                         key={arch}
-                        className="inline-flex items-center rounded-md border border-border/40 bg-background/40 px-2 py-0.5 text-[11px] font-medium text-muted-foreground/80"
+                        className={`inline-flex items-center rounded-md border px-2 py-0.5 text-[11px] font-medium transition-all duration-300 ${
+                          p.comingSoon
+                            ? "border-border/30 bg-background/30 text-muted-foreground/50"
+                            : "border-border/40 bg-background/40 text-muted-foreground/80 group-hover:border-primary/20 group-hover:text-foreground/90"
+                        }`}
                       >
                         {arch}
                       </span>
@@ -311,15 +347,15 @@ export function Download() {
 
                   {!p.comingSoon && (
                     <div className="mt-1 inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-                      <span className="inline-block size-1.5 rounded-full bg-primary" />
+                      <span className="inline-block size-1.5 animate-pulse rounded-full bg-primary" />
                       Ready to download
                     </div>
                   )}
 
                   {p.comingSoon && (
-                    <div className="mt-1 inline-flex items-center gap-1.5 rounded-full bg-muted px-3 py-1 text-xs font-medium text-muted-foreground">
+                    <div className="mt-1 inline-flex items-center gap-1.5 rounded-full bg-muted/50 px-3 py-1 text-xs font-medium text-muted-foreground/60">
                       <IconSparkles className="size-3" stroke={2} />
-                      Coming soon
+                      In development
                     </div>
                   )}
                 </div>
@@ -329,9 +365,9 @@ export function Download() {
                     <a
                       href={downloadUrl}
                       download
-                      className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-2.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all duration-300 hover:shadow-xl hover:shadow-primary/30 hover:brightness-110 active:scale-[0.97]"
+                      className="group/btn flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-2.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/30 hover:brightness-110 active:scale-[0.97]"
                     >
-                      <IconDownload className="size-4" stroke={2} />
+                      <IconDownload className="size-4 transition-transform duration-300 group-hover/btn:-translate-y-0.5" stroke={2} />
                       Download for {p.name}
                     </a>
                   )}
@@ -342,7 +378,7 @@ export function Download() {
                     </div>
                   )}
                   {p.comingSoon && (
-                    <div className="flex w-full items-center justify-center gap-2 rounded-xl border border-border/60 bg-card/50 py-2.5 text-sm font-medium text-muted-foreground">
+                    <div className="flex w-full items-center justify-center gap-2 rounded-xl border border-border/40 bg-card/40 py-2.5 text-sm font-medium text-muted-foreground/60 transition-all duration-300 hover:border-border/60 hover:text-muted-foreground/80 cursor-default">
                       <IconSparkles className="size-4" stroke={2} />
                       Notify me
                     </div>
