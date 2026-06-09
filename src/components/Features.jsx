@@ -384,18 +384,36 @@ export function Features() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="mt-20 md:mt-28 text-center"
+          className="mt-20 md:mt-28"
         >
-          <div className="inline-flex items-center gap-3 rounded-full border border-border/40 bg-card/30 px-4 py-1.5 text-xs font-medium text-muted-foreground backdrop-blur-sm mb-5">
-            <span className="flex size-2 rounded-full bg-primary/60" />
-            And more
+          <div className="relative mx-auto max-w-lg rounded-3xl border border-border/40 bg-card/20 p-8 sm:p-10 text-center overflow-hidden">
+            {/* Decorative bg glow */}
+            <div className="pointer-events-none absolute -inset-20 opacity-30">
+              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 size-60 rounded-full bg-primary/10 blur-[100px]" />
+            </div>
+            <div className="relative">
+              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3.5 py-1 text-xs font-medium text-primary">
+                <span className="flex size-1.5 rounded-full bg-primary" />
+                And more
+              </div>
+              <h3 className="text-balance text-2xl font-serif italic tracking-tight text-foreground sm:text-3xl">
+                …and&nbsp;much&nbsp;more
+              </h3>
+              <p className="mx-auto mt-3 max-w-xs text-sm text-muted-foreground">
+                We&rsquo;re just getting started&mdash;more is on the way.
+              </p>
+              <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+                {["Smart Folders", "Tags", "Favorites", "Quick Copy", "Markdown"].map((tag) => (
+                  <span
+                    key={tag}
+                    className="inline-flex items-center rounded-full border border-border/30 bg-card/40 px-3 py-1 text-[11px] font-medium text-muted-foreground/70"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
-          <h3 className="text-balance text-2xl font-serif italic tracking-tight text-foreground sm:text-3xl">
-            ...and&nbsp;much&nbsp;more
-          </h3>
-          <p className="mx-auto mt-3 max-w-sm text-sm text-muted-foreground">
-            And we&rsquo;re just getting started &mdash; more is on the way.
-          </p>
         </motion.div>
       </div>
     </section>
