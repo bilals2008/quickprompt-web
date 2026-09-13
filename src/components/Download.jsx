@@ -29,7 +29,6 @@ const PLATFORMS = [
     name: "macOS",
     logo: APPLE_LOGO,
     architectures: ["Intel", "Apple Silicon"],
-    comingSoon: true,
   },
   {
     name: "Linux",

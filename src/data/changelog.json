@@ -1,6 +1,54 @@
 {
   "releases": [
     {
+      "version": "2.0.0",
+      "date": "September 13, 2026",
+      "type": "stable",
+      "changes": [
+        "Added full folder system for organizing prompts and vault items",
+        "Added CollectionsPage with folder grid view and breadcrumb navigation",
+        "Added folder appearance picker with custom color input and hex validation",
+        "Added move-to-folder for prompts and vault items via dropdown or dialog",
+        "Added folder badges on prompt cards",
+        "Added attachments and URL field for vault items",
+        "Added delete confirmation dialog for vault folders",
+        "Added double-click prompt cards to view full content in dialog",
+        "Added Volt theme (neon yellow-green on deep dark)",
+        "Streamlined themes to Light, Cyberpunk, and Volt",
+        "Improved onboarding with Collections, Themes, and Vault steps",
+        "Improved About section with logo, portfolio link, and socials",
+        "Fixed folder name truncation and back button navigation"
+      ]
+    },
+    {
+      "version": "1.9.0",
+      "date": "August 14, 2026",
+      "type": "stable",
+      "changes": [
+        "Added encrypted Vault for storing passwords, API keys, and secrets",
+        "Added vault favorites with star toggle and pinning",
+        "Added colorful sticky-note cards for vault items",
+        "Added drag-and-drop reorder with keyboard support",
+        "Added springy animations for drag feedback",
+        "Fixed drag-and-drop save reliability",
+        "Fixed vault text and color issues"
+      ]
+    },
+    {
+      "version": "1.8.0",
+      "date": "June 18, 2026",
+      "type": "stable",
+      "changes": [
+        "Added full import/export page with drag-and-drop",
+        "Added import preview with valid/invalid counts",
+        "Added export panel with format selection (JSON, CSV, Markdown)",
+        "Added settings sidebar search and / keyboard shortcut",
+        "Redesigned theme picker with larger selectable cards",
+        "Redesigned settings with card-based sections",
+        "Fixed prompt editor textarea height cap for large content"
+      ]
+    },
+    {
       "version": "1.6.1",
       "date": "June 06, 2026",
       "type": "stable",

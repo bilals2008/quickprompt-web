@@ -12,84 +12,112 @@ import {
   IconBolt,
   IconCheck,
   IconDownload,
+  IconLock,
+  IconArrowsMoveVertical,
 } from "@tabler/icons-react";
 
 const FEATURES = [
   {
     icon: IconFolder,
-    pill: "Workspaces",
+    pill: "Collections",
     title: "Organize prompts into folders",
     description:
-      "Group prompts by project, client, or topic. Nest folders, drag to reorganize, and keep your library structured without breaking workflows.",
+      "Group prompts by project, client, or topic. Browse folders with a clean grid view, breadcrumb navigation, and color-coded folder icons.",
     screenshot: "/screenshots/workspace.avif",
     bullets: [
-      "Nested folder hierarchy",
-      "Drag & drop reordering",
-      "Project-based grouping",
+      "Folder grid with custom colors",
+      "Breadcrumb navigation",
+      "Move prompts between folders",
     ],
   },
   {
     icon: IconCopy,
-    pill: "Copy Actions",
-    title: "One-click copy to clipboard",
+    pill: "One-Click Copy",
+    title: "Copy any prompt instantly",
     description:
-      "Copy any prompt to your clipboard with a single click. A clean notification toast confirms every successful action instantly.",
+      "Single click copies the full prompt to your clipboard. Double-click to preview long prompts in a scrollable dialog before copying.",
     screenshot: "/screenshots/instantcopy.avif",
     bullets: [
-      "Instant copy shortcuts",
-      "Visual toast confirmations",
-      "Zero-latency execution",
+      "Click to copy with toast confirmation",
+      "Double-click to view full prompt",
+      "Works in grid and list views",
+    ],
+  },
+  {
+    icon: IconLock,
+    pill: "Vault",
+    title: "Encrypted storage for secrets",
+    description:
+      "Store API keys, passwords, and sensitive prompts in an encrypted vault. Pin favorites, organize with folders, and keep your secrets safe.",
+    screenshot: "/screenshots/workspace.avif",
+    bullets: [
+      "Encrypted local storage",
+      "Vault folders with color tints",
+      "Pin favorites for quick access",
     ],
   },
   {
     icon: IconSearch,
-    pill: "Instant Search",
+    pill: "Spotlight Search",
     title: "Find any prompt in milliseconds",
     description:
-      "Full-text search scans across titles, tags, and prompt contents. Results update instantly as you type.",
+      "Press ⌘ + K to open Spotlight. Full-text search scans titles, tags, and contents with instant results as you type.",
     screenshot: "/screenshots/instantSearch.avif",
     bullets: [
-      "Real-time keystroke filtering",
-      "Deep search query matching",
-      "Tag and title search",
+      "Keyboard-first search (⌘+K)",
+      "Search across all fields",
+      "Real-time filtering",
     ],
   },
   {
-    icon: IconLayoutGrid,
-    pill: "Flexible Views",
-    title: "Switch layout views on the fly",
+    icon: IconArrowsMoveVertical,
+    pill: "Drag & Drop",
+    title: "Reorder with drag and drop",
     description:
-      "Choose between list and grid view layouts. Use a dense list for quick browsing or a visual grid for scanning prompts.",
+      "Drag prompts to reorder them in your preferred sequence. Springy animations and keyboard support make it feel natural.",
     screenshots: ["/screenshots/listview.avif", "/screenshots/gridview.avif"],
     bullets: [
-      "Dense list layout",
-      "Visual grid showcase",
-      "Responsive card alignment",
+      "Full drag-and-drop reordering",
+      "Keyboard accessible",
+      "Smooth spring animations",
     ],
   },
   {
     icon: IconPalette,
-    pill: "Theming",
-    title: "Personalize your workspace themes",
+    pill: "Themes",
+    title: "Make it feel like yours",
     description:
-      "Switch between light, dark, and custom accent colors to match your preferences and make QuickPrompt feel like home.",
+      "Switch between Light, Cyberpunk, or Volt themes. Each theme is carefully designed with consistent colors across every surface.",
     screenshots: [
       "/screenshots/theming-1.avif",
       "/screenshots/theming-2.avif",
       "/screenshots/theming-3.avif",
     ],
     bullets: [
-      "Light and dark mode themes",
-      "Accent color customization",
-      "Consistent UI styling",
+      "Light, Cyberpunk & Volt themes",
+      "Consistent color tokens",
+      "Theme-aware sticky notes",
+    ],
+  },
+  {
+    icon: IconLayoutGrid,
+    pill: "Flexible Views",
+    title: "Grid or list, your choice",
+    description:
+      "Switch between grid and list layouts. Use mini sticky-note mode for a compact overview or full cards for more detail.",
+    screenshots: ["/screenshots/listview.avif", "/screenshots/gridview.avif"],
+    bullets: [
+      "Grid and list view modes",
+      "Mini sticky-note density",
+      "Configurable card display",
     ],
   },
   {
     icon: IconDownload,
     pill: "Import & Export",
-    title: "Move your library between machines",
+    title: "Your data, always yours",
     description:
-      "Back up your entire prompt library or merge it from another tool. Supports JSON, CSV, and Markdown with drag-and-drop import and one-click JSON export.",
+      "Back up your entire prompt library or migrate from another tool. Drag-and-drop import with JSON, CSV, and Markdown support.",
     screenshot: "/screenshots/ImportExport.avif",
     bullets: [
       "Drag-and-drop file import",
@@ -188,7 +216,7 @@ export function Features() {
           </h2>
 
           <p className="features-subtitle mx-auto mt-4 max-w-md text-sm leading-relaxed text-muted-foreground sm:text-base">
-            Six focused capabilities designed to make your prompt management
+            Eight focused capabilities designed to make your prompt management
             fast, intuitive, and zero-bloat.
           </p>
         </div>
@@ -403,7 +431,7 @@ export function Features() {
                 We&rsquo;re just getting started&mdash;more is on the way.
               </p>
               <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
-                {["Smart Folders", "Tags", "Favorites", "Quick Copy", "Markdown"].map((tag) => (
+                {["Custom Icons", "Color-coded Tags", "System Tray", "Auto-Update", "Markdown"].map((tag) => (
                   <span
                     key={tag}
                     className="inline-flex items-center rounded-full border border-border/30 bg-card/40 px-3 py-1 text-[11px] font-medium text-muted-foreground/70"
