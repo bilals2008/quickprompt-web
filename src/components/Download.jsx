@@ -34,8 +34,7 @@ const PLATFORMS = [
   {
     name: "Linux",
     logo: LINUX_LOGO,
-    architectures: ["x64", "ARM64"],
-    comingSoon: true,
+    architectures: ["x64"],
   },
 ];
 
@@ -61,7 +60,7 @@ function formatDate(iso) {
 
 export function Download() {
   const containerRef = useRef(null);
-  const { version, windows, mac, releaseUrl, publishedAt, loading } = useLatestRelease();
+  const { version, windows, mac, linux, releaseUrl, publishedAt, loading } = useLatestRelease();
 
   useGSAP(
     () => {
@@ -180,6 +179,7 @@ export function Download() {
   const getDownloadUrl = (platform) => {
     if (platform === "Windows") return windows;
     if (platform === "macOS") return mac;
+    if (platform === "Linux") return linux;
     return null;
   };
 

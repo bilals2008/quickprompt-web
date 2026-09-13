@@ -11,6 +11,7 @@ export function useLatestRelease() {
     assets: [],
     windows: null,
     mac: null,
+    linux: null,
     releaseUrl: `https://github.com/${REPO}/releases/latest`,
     loading: true,
     error: null,
@@ -36,6 +37,7 @@ export function useLatestRelease() {
         }));
         const windows = assets.find((a) => a.name.endsWith(".exe"));
         const mac = assets.find((a) => a.name.endsWith(".dmg"));
+        const linux = assets.find((a) => a.name.endsWith(".AppImage"));
 
         setState({
           version: (data.tag_name || FALLBACK_VERSION).replace(/^v/, ""),
@@ -44,6 +46,7 @@ export function useLatestRelease() {
           assets,
           windows: windows?.url || null,
           mac: mac?.url || null,
+          linux: linux?.url || null,
           releaseUrl: data.html_url || `https://github.com/${REPO}/releases/latest`,
           loading: false,
           error: null,
