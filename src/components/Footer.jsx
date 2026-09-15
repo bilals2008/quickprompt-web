@@ -43,6 +43,15 @@ export function Footer() {
             >
               Muhammad Bilal Hassan
             </a>
+            <span className="text-muted-foreground/50">·</span>
+            <a
+              href="https://mbilalhassan.vercel.app/"
+              target="_blank"
+              rel="noreferrer"
+              className="cursor-pointer transition-all duration-300 hover:text-primary hover:underline-offset-2 active:scale-95"
+            >
+              Portfolio
+            </a>
           </div>
 
           <div className="flex items-center gap-3">
